@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harvest Slot 고객 예약웹</title>
+    <style>
+      :root {
+        --bg: #f7f5ef;
+        --panel: #ffffff;
+        --text: #1f2b22;
+        --muted: #67746a;
+        --line: #dfe5da;
+        --green: #2f7d46;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+
+      main {
+        width: min(900px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 48px 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(30px, 5vw, 48px);
+        line-height: 1.1;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 680px;
+        margin: 14px 0 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .links {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 28px;
+      }
+
+      a {
+        display: block;
+        min-height: 180px;
+        padding: 22px;
+        color: inherit;
+        text-decoration: none;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      a:hover,
+      a:focus-visible {
+        border-color: rgba(47, 125, 70, 0.6);
+        outline: none;
+      }
+
+      h2 {
+        margin: 0 0 10px;
+        font-size: 24px;
+        letter-spacing: 0;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .path {
+        display: block;
+        margin-top: 22px;
+        color: var(--green);
+        font-size: 14px;
+        font-weight: 700;
+        overflow-wrap: anywhere;
+      }
+
+      @media (max-width: 720px) {
+        .links {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>고객 예약웹 프로토타입</h1>
+      <p class="lead">전체 시안 보기와 페이지별 분리 시안 중 필요한 버전을 선택하세요.</p>
+
+      <section class="links" aria-label="Customer web prototype links">
+        <a href="./prototype_user_web/">
+          <h2>전체 시안 보기</h2>
+          <p>한 페이지에서 고객 예약웹 전체 화면을 확인합니다.</p>
+          <span class="path">prototype_user_web/</span>
+        </a>
+
+        <a href="./prototype_user_web_m3/">
+          <h2>페이지별 분리 시안</h2>
+          <p>각 화면을 개별 HTML 파일로 확인합니다.</p>
+          <span class="path">prototype_user_web_m3/</span>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>
