@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C-009 CheckoutPage</title>
+  <link rel="stylesheet" href="../assets/material3.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-app-bar">
+      <div class="brand">
+        <span class="brand-mark material-symbols-rounded">local_shipping</span>
+        <span>주문서 작성</span>
+      </div>
+      <span class="status-chip">RESERVED</span>
+    </header>
+
+    <main class="page checkout">
+      <span class="label">POST /orders/from-reservation</span>
+      <h1 class="headline">기본 배송지로 예약을 주문 전환</h1>
+
+      <div class="two-pane">
+        <section class="card pad field-grid">
+          <div>
+            <h3>배송 프로필 선택</h3>
+            <p class="route-note">`customer_profiles.default_*` 값을 우선 사용합니다.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="choice-card selected">
+              <strong>기본 배송지</strong>
+              <span>profile_id 24 · 홍길동 · 010-1111-2222</span>
+              <span>서울시 강남구 테헤란로 123</span>
+            </div>
+            <div class="choice-card">
+              <strong>회사 배송지</strong>
+              <span>profile_address_id 31 · 홍길동</span>
+              <span>서울시 서초구 반포대로 45</span>
+            </div>
+          </div>
+
+          <div class="text-field">
+            <label>배송 메모 선택</label>
+            <select>
+              <option>문 앞에 놓아주세요</option>
+              <option>경비실에 맡겨주세요</option>
+              <option>배송 전 연락주세요</option>
+              <option>직접 입력</option>
+            </select>
+          </div>
+
+          <div class="field-grid" style="padding-top:14px;border-top:1px solid var(--md-sys-color-outline-variant)">
+            <h3>필요 시 수정</h3>
+            <div class="text-field">
+              <label>수령인 override</label>
+              <input value="" placeholder="기본값 사용">
+            </div>
+            <div class="text-field">
+              <label>전화번호 override</label>
+              <input value="" placeholder="기본값 사용">
+            </div>
+            <div class="text-field">
+              <label>상세 주소 override</label>
+              <input value="" placeholder="기본 주소 사용">
+            </div>
+          </div>
+
+          <div class="notice">`reservation_status=RESERVED`이고 `reserved_until` 만료 전일 때만 주문 생성이 허용됩니다.</div>
+        </section>
+
+        <aside class="card pad">
+          <h3>예약 RES-20261012-005</h3>
+          <div class="summary-row"><span>상품</span><strong>사과 2종</strong></div>
+          <div class="summary-row"><span>예약 만료</span><strong>2026-10-12 19:12</strong></div>
+          <div class="summary-row"><span>배송비</span><strong>무료</strong></div>
+          <div class="total-row"><span>주문 금액</span><span>110,000원</span></div>
+          <div class="payload-preview">{
+  "reservation_id": "RES-20261012-005",
+  "customer_profile_id": 24,
+  "delivery_profile_source": "customer_profiles.default_*",
+  "recipient_name": "홍길동",
+  "recipient_phone": "010-1111-2222",
+  "shipping_address": "서울시 강남구 테헤란로 123",
+  "delivery_memo": "문 앞에 놓아주세요"
+}</div>
+          <div class="actions">
+            <a class="button filled" href="mock-payment.html">주문 생성</a>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

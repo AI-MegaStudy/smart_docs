@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C-004 LocalBasketPage</title>
+  <link rel="stylesheet" href="../assets/material3.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-app-bar">
+      <div class="brand">
+        <span class="brand-mark material-symbols-rounded">shopping_basket</span>
+        <span>로컬 예약함</span>
+      </div>
+      <div class="top-actions">
+        <a class="button outlined" href="product-list.html">계속 담기</a>
+      </div>
+    </header>
+
+    <main class="page checkout">
+      <span class="label">LocalBasketStore · 서버 저장 전 단계</span>
+      <h1 class="headline">선택된 사과 패키지와 수확 슬롯 확인</h1>
+
+      <div class="two-pane">
+        <section class="list">
+          <div class="list-item">
+            <img class="thumb" src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=300&q=80" alt="">
+            <div>
+              <h3>후지 사과 5kg</h3>
+              <div class="meta">
+                <span>product_id 3</span>
+                <span>slot_id 12</span>
+                <span>package_unit_kg 5.0</span>
+                <span>package_count 2</span>
+                <span class="status-chip">reserved_kg 10.0</span>
+              </div>
+            </div>
+            <strong>78,000원</strong>
+          </div>
+
+          <div class="list-item">
+            <img class="thumb" src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&w=300&q=80" alt="">
+            <div>
+              <h3>홍로 사과 3kg</h3>
+              <div class="meta">
+                <span>product_id 8</span>
+                <span>slot_id 18</span>
+                <span>package_unit_kg 3.0</span>
+                <span>package_count 1</span>
+                <span class="status-chip warning">reserved_kg 3.0</span>
+              </div>
+            </div>
+            <strong>32,000원</strong>
+          </div>
+
+          <div class="notice">
+            예약함은 클라이언트 임시 상태입니다. 서버 저장 전에는 `product_id`, `slot_id`, `package_count`만 수정 가능하며 kg 값은 패키지 단위로 계산됩니다.
+          </div>
+        </section>
+
+        <aside class="card pad">
+          <h3>예약 후보 합계</h3>
+          <div class="summary-row"><span>총 박스 수</span><strong>3박스</strong></div>
+          <div class="summary-row"><span>계산 예약량</span><strong>13.0kg</strong></div>
+          <div class="summary-row"><span>상품 금액</span><strong>110,000원</strong></div>
+          <div class="summary-row"><span>서버 검증</span><strong>다음 단계</strong></div>
+          <div class="total-row"><span>예상 합계</span><span>110,000원</span></div>
+          <div class="payload-preview">{
+  "items": [
+    { "product_id": 3, "slot_id": 12, "package_unit_kg": 5.0, "package_count": 2, "reserved_kg": 10.0 },
+    { "product_id": 8, "slot_id": 18, "package_unit_kg": 3.0, "package_count": 1, "reserved_kg": 3.0 }
+  ]
+}</div>
+          <div class="actions">
+            <a class="button filled" href="reservation-confirm.html">예약 확인</a>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

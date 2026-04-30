@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C-008 ReservationConfirmPage</title>
+  <link rel="stylesheet" href="../assets/material3.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-app-bar">
+      <div class="brand">
+        <span class="brand-mark material-symbols-rounded">lock</span>
+        <span>예약 확인</span>
+      </div>
+      <span class="status-chip warning">reserved_until 점유 전</span>
+    </header>
+
+    <main class="page checkout">
+      <span class="label">POST /reservations/preview · POST /reservations</span>
+      <h1 class="headline">서버 예약 생성 전 최종 검증</h1>
+
+      <div class="two-pane">
+        <section class="list">
+          <div class="list-item">
+            <img class="thumb" src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=300&q=80" alt="">
+            <div>
+              <h3>후지 사과 5kg</h3>
+              <div class="meta">
+                <span>product_id 3</span>
+                <span>slot_id 12</span>
+                <span>package_count 2</span>
+                <span>reserved_kg 10.0</span>
+                <span class="status-chip">available_kg 185.0</span>
+              </div>
+            </div>
+            <strong>검증 가능</strong>
+          </div>
+
+          <div class="list-item">
+            <img class="thumb" src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&w=300&q=80" alt="">
+            <div>
+              <h3>홍로 사과 3kg</h3>
+              <div class="meta">
+                <span>product_id 8</span>
+                <span>slot_id 18</span>
+                <span>package_count 1</span>
+                <span>reserved_kg 3.0</span>
+                <span class="status-chip warning">available_kg 42.0</span>
+              </div>
+            </div>
+            <strong>검증 가능</strong>
+          </div>
+
+          <div class="notice">
+            서버는 선택된 `harvest_slots.slot_id` 행을 잠그고 잔여 수량을 다시 계산합니다. 예약 생성 후 `reserved_until`까지 주문 생성이 가능해집니다.
+          </div>
+        </section>
+
+        <aside class="card pad">
+          <h3>예약 생성 요청</h3>
+          <div class="summary-row"><span>고객</span><strong>customer_id 24</strong></div>
+          <div class="summary-row"><span>총 예약량</span><strong>13.0kg</strong></div>
+          <div class="summary-row"><span>점유 시간</span><strong>20분</strong></div>
+          <div class="summary-row"><span>예상 만료</span><strong>2026-10-12 19:12</strong></div>
+          <div class="total-row"><span>결제 예정</span><span>110,000원</span></div>
+          <div class="payload-preview">{
+  "customer_id": 24,
+  "items": [
+    { "product_id": 3, "slot_id": 12, "package_count": 2, "reserved_kg": 10.0 },
+    { "product_id": 8, "slot_id": 18, "package_count": 1, "reserved_kg": 3.0 }
+  ]
+}</div>
+          <div class="actions">
+            <a class="button filled" href="checkout.html">서버 예약 생성</a>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

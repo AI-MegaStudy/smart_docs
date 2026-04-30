@@ -1,0 +1,378 @@
+Project harvest_slot_final_19tables_v3_1 {
+  Note: '유형 구분: Entity, Associative Entity, Supertype Entity, Subtype Entity. 최종 구현 기준은 19개 테이블이다. 관계 문서는 assets/10_관계_카디널리티_전체.md, 속성 사전은 assets/10_어트리뷰트_사전_19테이블.md를 기준으로 한다.'
+}
+
+Table accounts {
+  account_id bigint [pk, increment, not null, note: '한글명: 계정 번호 | 개념 타입: int | 비고: 계정 식별자']
+  email varchar(255) [not null, unique, note: '한글명: 이메일 | 개념 타입: string | 비고: 로그인 이메일']
+  password_hash varchar(255) [not null, note: '한글명: 비밀번호 해시 | 개념 타입: string | 비고: 비밀번호 해시값']
+  role varchar(20) [not null, note: '한글명: 계정 역할 | 개념 타입: enum | 비고: CUSTOMER 또는 OWNER']
+  status varchar(20) [not null, default: 'ACTIVE', note: '한글명: 계정 상태 | 개념 타입: enum | 비고: ACTIVE, LOCKED, WITHDRAWN']
+  email_verified boolean [not null, default: false, note: '한글명: 이메일 인증 여부 | 개념 타입: bool | 비고: 이메일 인증 완료 여부']
+  last_login_at datetime [note: '한글명: 최종 로그인 일시 | 개념 타입: datetime | 비고: 마지막 로그인 시간']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 카테고리 상위 엔티티(Supertype Entity) | 한글명: 계정 | 설명: 고객과 점주가 공통으로 사용하는 로그인 계정이다. role 값에 따라 고객 프로필 또는 점주 프로필 중 하나로 확장된다.'
+}
+
+Table customer_profiles {
+  customer_id bigint [pk, increment, not null, note: '한글명: 고객 번호 | 개념 타입: int | 비고: 고객 식별자']
+  account_id bigint [not null, unique, note: '한글명: 계정 번호 | 개념 타입: int | 비고: accounts와 고객 프로필의 1:1 연결']
+  customer_name varchar(100) [not null, note: '한글명: 고객 이름 | 개념 타입: string | 비고: 고객 실명 또는 표시 이름']
+  customer_phone varchar(30) [not null, note: '한글명: 고객 전화번호 | 개념 타입: string | 비고: 고객 연락처']
+  default_receiver_name varchar(100) [note: '한글명: 기본 수령인 이름 | 개념 타입: string | 비고: 기본 배송 수령인']
+  default_receiver_phone varchar(30) [note: '한글명: 기본 수령인 전화번호 | 개념 타입: string | 비고: 기본 배송 연락처']
+  default_shipping_address varchar(500) [note: '한글명: 기본 배송 주소 | 개념 타입: string | 비고: 기본 배송지']
+  marketing_agree boolean [not null, default: false, note: '한글명: 마케팅 수신 동의 여부 | 개념 타입: bool | 비고: 마케팅 수신 동의']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 카테고리 하위 엔티티(Subtype Entity) | 한글명: 고객 프로필 | 설명: CUSTOMER 역할 계정의 고객 상세 정보다. 계정 1건당 최대 1건만 생성된다.'
+}
+
+Table owner_profiles {
+  owner_id bigint [pk, increment, not null, note: '한글명: 점주 번호 | 개념 타입: int | 비고: 점주 식별자']
+  account_id bigint [not null, unique, note: '한글명: 계정 번호 | 개념 타입: int | 비고: accounts와 점주 프로필의 1:1 연결']
+  owner_name varchar(100) [not null, note: '한글명: 점주 이름 | 개념 타입: string | 비고: 점주명']
+  owner_phone varchar(30) [not null, note: '한글명: 점주 전화번호 | 개념 타입: string | 비고: 점주 연락처']
+  business_number varchar(50) [note: '한글명: 사업자 번호 | 개념 타입: string | 비고: 사업자 등록번호']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 카테고리 하위 엔티티(Subtype Entity) | 한글명: 점주 프로필 | 설명: OWNER 역할 계정의 점주 상세 정보다. 계정 1건당 최대 1건만 생성된다.'
+}
+
+Table email_verifications {
+  email_verification_id bigint [pk, increment, not null, note: '한글명: 이메일 인증 번호 | 개념 타입: int | 비고: 이메일 인증 식별자']
+  account_id bigint [not null, note: '한글명: 계정 번호 | 개념 타입: int | 비고: 인증 대상 계정']
+  email varchar(255) [not null, note: '한글명: 인증 대상 이메일 | 개념 타입: string | 비고: 인증 메일 주소']
+  purpose varchar(30) [not null, note: '한글명: 인증 목적 | 개념 타입: enum | 비고: SIGNUP 또는 RESET_PASSWORD']
+  verification_code varchar(20) [not null, note: '한글명: 인증 코드 | 개념 타입: string | 비고: 사용자에게 발급한 코드']
+  verified boolean [not null, default: false, note: '한글명: 인증 완료 여부 | 개념 타입: bool | 비고: 인증 완료 상태']
+  expires_at datetime [not null, note: '한글명: 만료 일시 | 개념 타입: datetime | 비고: 코드 만료 시간']
+  verified_at datetime [note: '한글명: 인증 완료 일시 | 개념 타입: datetime | 비고: 인증 성공 시간']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 이메일 인증 | 설명: 회원가입 또는 비밀번호 재설정 목적의 이메일 인증 코드 이력이다.'
+}
+
+Table farms {
+  farm_id bigint [pk, increment, not null, note: '한글명: 농장 번호 | 개념 타입: int | 비고: 농장 식별자']
+  owner_id bigint [not null, note: '한글명: 점주 번호 | 개념 타입: int | 비고: 농장 소유 점주']
+  farm_name varchar(150) [not null, note: '한글명: 농장 이름 | 개념 타입: string | 비고: 농장명']
+  farm_region varchar(100) [not null, note: '한글명: 농장 지역 | 개념 타입: string | 비고: 지역명']
+  farm_address varchar(500) [not null, note: '한글명: 농장 주소 | 개념 타입: string | 비고: 상세 주소']
+  farm_image_url varchar(1000) [note: '한글명: 농장 이미지 URL | 개념 타입: string | 비고: 농장 대표 이미지']
+  farm_description text [note: '한글명: 농장 설명 | 개념 타입: string | 비고: 농장 소개']
+  delivery_policy text [note: '한글명: 배송 정책 | 개념 타입: string | 비고: 배송 안내']
+  return_policy text [note: '한글명: 반품 정책 | 개념 타입: string | 비고: 반품 안내']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 농장 | 설명: 점주가 운영하는 과수농가 정보다.'
+}
+
+Table products {
+  product_id bigint [pk, increment, not null, note: '한글명: 상품 번호 | 개념 타입: int | 비고: 상품 식별자']
+  farm_id bigint [not null, note: '한글명: 농장 번호 | 개념 타입: int | 비고: 상품 소속 농장']
+  product_name varchar(200) [not null, note: '한글명: 상품명 | 개념 타입: string | 비고: 고객 노출 상품명']
+  fruit_type varchar(50) [not null, note: '한글명: 과일 종류 | 개념 타입: string | 비고: apple, pear 등']
+  variety varchar(100) [not null, note: '한글명: 품종 | 개념 타입: string | 비고: 후지, 홍로 등']
+  package_unit_kg decimal(6,2) [not null, note: '한글명: 포장 단위 kg | 개념 타입: double | 비고: 1박스 중량']
+  base_price int [not null, note: '한글명: 기본 가격 | 개념 타입: int | 비고: 기본 판매가']
+  product_status varchar(20) [not null, default: 'ACTIVE', note: '한글명: 상품 상태 | 개념 타입: enum | 비고: ACTIVE, HIDDEN, SOLD_OUT']
+  image_url varchar(1000) [note: '한글명: 대표 이미지 URL | 개념 타입: string | 비고: 상품 대표 이미지']
+  product_description text [note: '한글명: 상품 설명 | 개념 타입: string | 비고: 상품 상세 설명']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 상품 | 설명: 농장에서 판매하는 과일 상품 정보다. 실제 예약 가능 수량은 harvest_slots에서 관리한다.'
+}
+
+Table ml_predictions {
+  prediction_id bigint [pk, increment, not null, note: '한글명: 예측 번호 | 개념 타입: int | 비고: ML 예측 식별자']
+  farm_id bigint [not null, note: '한글명: 농장 번호 | 개념 타입: int | 비고: 예측 대상 농장']
+  product_id bigint [not null, note: '한글명: 상품 번호 | 개념 타입: int | 비고: 예측 대상 상품']
+  created_by_owner_id bigint [not null, note: '한글명: 예측 실행 점주 번호 | 개념 타입: int | 비고: 예측 실행자']
+  input_feature_json json [not null, note: '한글명: 입력 피처 JSON | 개념 타입: json | 비고: 모델 입력값']
+  open_api_snapshot_json json [note: '한글명: Open API 수집 스냅샷 JSON | 개념 타입: json | 비고: 가격/환경 등 외부 데이터 스냅샷']
+  predicted_harvest_start date [not null, note: '한글명: 예측 수확 시작일 | 개념 타입: date | 비고: 모델 제안 시작일']
+  predicted_harvest_end date [not null, note: '한글명: 예측 수확 종료일 | 개념 타입: date | 비고: 모델 제안 종료일']
+  estimated_yield_kg decimal(10,2) [not null, note: '한글명: 예상 수확량 kg | 개념 타입: double | 비고: 예상 총 수확량']
+  suggested_reservable_min_kg decimal(10,2) [not null, note: '한글명: 제안 예약 가능 최소 kg | 개념 타입: double | 비고: 보수적 예약 권장 하한']
+  suggested_reservable_max_kg decimal(10,2) [not null, note: '한글명: 제안 예약 가능 최대 kg | 개념 타입: double | 비고: 보수적 예약 권장 상한']
+  recommended_price int [not null, note: '한글명: 추천 가격 | 개념 타입: int | 비고: 추천 판매가']
+  confidence decimal(5,4) [not null, note: '한글명: 신뢰도 | 개념 타입: double | 비고: 0~1']
+  safety_factor decimal(5,4) [not null, note: '한글명: 안전 계수 | 개념 타입: double | 비고: 예약 수량 보정 계수']
+  warning_message varchar(500) [not null, note: '한글명: 주의 메시지 | 개념 타입: string | 비고: 점주 안내 문구']
+  model_version varchar(50) [not null, note: '한글명: 모델 버전 | 개념 타입: string | 비고: 모델 버전']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: ML 예측 | 설명: 수확 시기, 수확량, 예약 가능 범위, 추천 가격을 제안하는 ML 의사결정 보조 결과다.'
+}
+
+Table harvest_slots {
+  slot_id bigint [pk, increment, not null, note: '한글명: 수확 슬롯 번호 | 개념 타입: int | 비고: 수확 슬롯 식별자']
+  farm_id bigint [not null, note: '한글명: 농장 번호 | 개념 타입: int | 비고: 슬롯 소속 농장']
+  product_id bigint [not null, note: '한글명: 상품 번호 | 개념 타입: int | 비고: 슬롯 상품']
+  prediction_id bigint [note: '한글명: 예측 번호 | 개념 타입: int | 비고: 참고 예측 결과']
+  confirmed_harvest_start date [not null, note: '한글명: 점주 확정 수확 시작일 | 개념 타입: date | 비고: 고객 고지 수확 시작일']
+  confirmed_harvest_end date [not null, note: '한글명: 점주 확정 수확 종료일 | 개념 타입: date | 비고: 고객 고지 수확 종료일']
+  confirmed_reservable_kg decimal(10,2) [not null, note: '한글명: 점주 확정 예약 가능 kg | 개념 타입: double | 비고: 점주가 확정한 예약 가능량']
+  reserved_kg decimal(10,2) [not null, default: 0, note: '한글명: 예약 점유 kg | 개념 타입: double | 비고: 예약으로 임시 점유된 수량']
+  sold_kg decimal(10,2) [not null, default: 0, note: '한글명: 판매 확정 kg | 개념 타입: double | 비고: 결제 완료 후 판매 확정 수량']
+  confirmed_price int [not null, note: '한글명: 점주 확정 판매가 | 개념 타입: int | 비고: 고객 판매가']
+  customer_notice varchar(500) [not null, note: '한글명: 고객 고지 문구 | 개념 타입: string | 비고: 수확 일정 변동 가능성 안내']
+  slot_status varchar(20) [not null, default: 'DRAFT', note: '한글명: 수확 슬롯 상태 | 개념 타입: enum | 비고: DRAFT, OPEN, CLOSED']
+  owner_confirmed_at datetime [note: '한글명: 점주 확정 일시 | 개념 타입: datetime | 비고: 점주 확정 시각']
+  opened_at datetime [note: '한글명: 오픈 일시 | 개념 타입: datetime | 비고: 고객 예약 오픈 시간']
+  closed_at datetime [note: '한글명: 마감 일시 | 개념 타입: datetime | 비고: 고객 예약 마감 시간']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 수확 슬롯 | 설명: 점주가 고객에게 예약 가능하다고 확정한 수확 기간, 예약 가능 수량, 판매가다.'
+}
+
+Table reservations {
+  reservation_id bigint [pk, increment, not null, note: '한글명: 예약 번호 | 개념 타입: int | 비고: 예약 식별자']
+  customer_id bigint [not null, note: '한글명: 고객 번호 | 개념 타입: int | 비고: 예약 고객']
+  reservation_no varchar(50) [not null, unique, note: '한글명: 예약 코드 | 개념 타입: string | 비고: 고객 표시 예약번호']
+  reservation_status varchar(30) [not null, default: 'RESERVED', note: '한글명: 예약 상태 | 개념 타입: enum | 비고: RESERVED, ORDERED, EXPIRED, CANCELED']
+  reserved_until datetime [not null, note: '한글명: 예약 점유 만료 일시 | 개념 타입: datetime | 비고: 결제 전 임시 점유 만료']
+  total_reserved_kg decimal(10,2) [not null, note: '한글명: 총 예약 kg | 개념 타입: double | 비고: 예약 총 수량']
+  total_amount int [not null, note: '한글명: 총 금액 | 개념 타입: int | 비고: 예약 총액']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 예약 | 설명: 고객이 수확 슬롯을 임시 점유한 예약 헤더다. 주문 전환 전까지 reserved_until으로 만료를 관리한다.'
+}
+
+Table reservation_items {
+  reservation_item_id bigint [pk, increment, not null, note: '한글명: 예약 품목 번호 | 개념 타입: int | 비고: 예약 품목 식별자']
+  reservation_id bigint [not null, note: '한글명: 예약 번호 | 개념 타입: int | 비고: 예약 헤더']
+  slot_id bigint [not null, note: '한글명: 수확 슬롯 번호 | 개념 타입: int | 비고: 예약 대상 슬롯']
+  package_count int [not null, note: '한글명: 포장 개수 | 개념 타입: int | 비고: 예약 박스 수']
+  reserved_kg decimal(10,2) [not null, note: '한글명: 예약 kg | 개념 타입: double | 비고: 예약 수량']
+  unit_price_snapshot int [not null, note: '한글명: 예약 시점 단가 | 개념 타입: int | 비고: 예약 당시 가격']
+  subtotal_amount int [not null, note: '한글명: 예약 품목 소계 | 개념 타입: int | 비고: 품목 금액']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+
+  Note: '유형: 연관 엔티티(Associative Entity) | 한글명: 예약 품목 | 설명: 예약과 수확 슬롯 사이의 N:M 성격을 해소하는 예약 품목 상세다.'
+}
+
+Table orders {
+  order_id bigint [pk, increment, not null, note: '한글명: 주문 번호 | 개념 타입: int | 비고: 주문 식별자']
+  reservation_id bigint [not null, unique, note: '한글명: 전환 예약 번호 | 개념 타입: int | 비고: 주문 원본 예약']
+  order_no varchar(50) [not null, unique, note: '한글명: 주문 코드 | 개념 타입: string | 비고: 고객 표시 주문번호']
+  order_status varchar(30) [not null, default: 'PAYMENT_PENDING', note: '한글명: 주문 상태 | 개념 타입: enum | 비고: 주문 진행 상태']
+  total_amount int [not null, note: '한글명: 총 결제 금액 | 개념 타입: int | 비고: 주문 금액']
+  receiver_name varchar(100) [not null, note: '한글명: 수령인 이름 | 개념 타입: string | 비고: 배송 수령인']
+  receiver_phone varchar(30) [not null, note: '한글명: 수령인 전화번호 | 개념 타입: string | 비고: 배송 연락처']
+  shipping_address varchar(500) [not null, note: '한글명: 배송 주소 | 개념 타입: string | 비고: 배송지']
+  delivery_memo varchar(500) [note: '한글명: 배송 메모 | 개념 타입: string | 비고: 요청사항']
+  ordered_at datetime [not null, note: '한글명: 주문 일시 | 개념 타입: datetime | 비고: 주문 생성 시각']
+  paid_at datetime [note: '한글명: 결제 완료 일시 | 개념 타입: datetime | 비고: 결제 승인 시각']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 주문 | 설명: 예약을 구매 의사로 확정한 주문 헤더다. 주문 하나는 반드시 예약 하나에서 전환된다.'
+}
+
+Table order_items {
+  order_item_id bigint [pk, increment, not null, note: '한글명: 주문 품목 번호 | 개념 타입: int | 비고: 주문 품목 식별자']
+  order_id bigint [not null, note: '한글명: 주문 번호 | 개념 타입: int | 비고: 주문 헤더']
+  reservation_item_id bigint [not null, unique, note: '한글명: 전환 예약 품목 번호 | 개념 타입: int | 비고: 주문으로 전환된 예약 품목']
+  package_count int [not null, note: '한글명: 주문 포장 개수 | 개념 타입: int | 비고: 주문 박스 수']
+  ordered_kg decimal(10,2) [not null, note: '한글명: 주문 kg | 개념 타입: double | 비고: 주문 수량']
+  unit_price int [not null, note: '한글명: 주문 단가 | 개념 타입: int | 비고: 주문 단가']
+  subtotal_amount int [not null, note: '한글명: 주문 품목 소계 | 개념 타입: int | 비고: 품목 금액']
+  order_item_status varchar(30) [not null, default: 'ORDERED', note: '한글명: 주문 품목 상태 | 개념 타입: enum | 비고: ORDERED, PROCUREMENT_REQUESTED, APPROVED, PARTIAL_APPROVED, REJECTED, QUALITY_CHECKED, SHIPPED, DELIVERED, RETURN_REQUESTED, REFUNDED']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 연관 엔티티(Associative Entity) | 한글명: 주문 품목 | 설명: 주문과 예약 품목 전환 결과를 연결하는 주문 품목 상세다.'
+}
+
+Table payments {
+  payment_id bigint [pk, increment, not null, note: '한글명: 결제 번호 | 개념 타입: int | 비고: 결제 식별자']
+  order_id bigint [not null, note: '한글명: 주문 번호 | 개념 타입: int | 비고: 결제 대상 주문']
+  payment_provider varchar(30) [not null, default: 'MOCK', note: '한글명: 결제 제공사 | 개념 타입: string | 비고: 결제 처리자']
+  payment_method varchar(30) [not null, default: 'MOCK', note: '한글명: 결제 수단 | 개념 타입: enum | 비고: 결제 수단']
+  payment_status varchar(30) [not null, default: 'REQUESTED', note: '한글명: 결제 상태 | 개념 타입: enum | 비고: REQUESTED, APPROVED, FAILED, CANCELED, REFUNDED']
+  requested_amount int [not null, note: '한글명: 요청 금액 | 개념 타입: int | 비고: 결제 요청 금액']
+  approved_amount int [not null, default: 0, note: '한글명: 승인 금액 | 개념 타입: int | 비고: 승인 금액']
+  mock_transaction_key varchar(200) [note: '한글명: Mock 거래 키 | 개념 타입: string | 비고: Mock 결제 거래키']
+  idempotency_key varchar(200) [not null, unique, note: '한글명: 멱등 키 | 개념 타입: string | 비고: 중복 결제 방지 키']
+  requested_at datetime [not null, note: '한글명: 요청 일시 | 개념 타입: datetime | 비고: 요청 시간']
+  approved_at datetime [note: '한글명: 승인 일시 | 개념 타입: datetime | 비고: 승인 시간']
+  failed_at datetime [note: '한글명: 실패 일시 | 개념 타입: datetime | 비고: 실패 시간']
+  failure_reason varchar(500) [note: '한글명: 실패 사유 | 개념 타입: string | 비고: 실패 설명']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 결제 | 설명: Mock 결제 요청과 승인 결과다. 결제 재시도를 고려해 주문 1건에 결제 기록 여러 건을 허용한다.'
+}
+
+Table procurements {
+  procurement_id bigint [pk, increment, not null, note: '한글명: 발주 번호 | 개념 타입: int | 비고: 발주 식별자']
+  order_id bigint [not null, unique, note: '한글명: 발주 원본 주문 번호 | 개념 타입: int | 비고: 발주 원본 주문']
+  farm_id bigint [not null, note: '한글명: 발주 대상 농장 번호 | 개념 타입: int | 비고: 처리 농장']
+  owner_id bigint [not null, note: '한글명: 발주 담당 점주 번호 | 개념 타입: int | 비고: 담당 점주']
+  procurement_no varchar(50) [not null, unique, note: '한글명: 발주 코드 | 개념 타입: string | 비고: 발주번호']
+  procurement_status varchar(30) [not null, default: 'REQUESTED', note: '한글명: 발주 상태 | 개념 타입: enum | 비고: REQUESTED, APPROVED, PARTIAL_APPROVED, REJECTED']
+  requested_at datetime [not null, note: '한글명: 발주 요청 일시 | 개념 타입: datetime | 비고: 발주 생성 시각']
+  response_deadline_at datetime [note: '한글명: 응답 기한 일시 | 개념 타입: datetime | 비고: 승인 기한']
+  decided_at datetime [note: '한글명: 결정 일시 | 개념 타입: datetime | 비고: 점주 결정 시각']
+  rejected_reason varchar(500) [note: '한글명: 거절 사유 | 개념 타입: string | 비고: 거절 또는 부분승인 사유']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 발주 | 설명: 결제 완료 후 점주에게 생성되는 출고/수확 처리 요청 헤더다.'
+}
+
+Table procurement_items {
+  procurement_item_id bigint [pk, increment, not null, note: '한글명: 발주 품목 번호 | 개념 타입: int | 비고: 발주 품목 식별자']
+  procurement_id bigint [not null, note: '한글명: 발주 번호 | 개념 타입: int | 비고: 발주 헤더']
+  order_item_id bigint [not null, unique, note: '한글명: 발주 대상 주문 품목 번호 | 개념 타입: int | 비고: 대상 주문 품목']
+  requested_package_count int [not null, note: '한글명: 요청 포장 개수 | 개념 타입: int | 비고: 요청 박스 수']
+  requested_kg decimal(10,2) [not null, note: '한글명: 요청 kg | 개념 타입: double | 비고: 요청 수량']
+  approved_package_count int [not null, default: 0, note: '한글명: 승인 포장 개수 | 개념 타입: int | 비고: 승인 박스 수']
+  approved_kg decimal(10,2) [not null, default: 0, note: '한글명: 승인 kg | 개념 타입: double | 비고: 승인 수량']
+  approval_status varchar(30) [not null, default: 'REQUESTED', note: '한글명: 품목 승인 상태 | 개념 타입: enum | 비고: REQUESTED, APPROVED, PARTIAL_APPROVED, REJECTED']
+  owner_memo varchar(500) [note: '한글명: 점주 메모 | 개념 타입: string | 비고: 점주 처리 메모']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 연관 엔티티(Associative Entity) | 한글명: 발주 품목 | 설명: 발주와 주문 품목 전환 결과를 연결하는 발주 품목 상세다.'
+}
+
+Table quality_inspections {
+  quality_inspection_id bigint [pk, increment, not null, note: '한글명: 신선도 검사 번호 | 개념 타입: int | 비고: 신선도 검사 식별자']
+  procurement_item_id bigint [not null, note: '한글명: 발주 품목 번호 | 개념 타입: int | 비고: 검사 대상 발주 품목']
+  owner_id bigint [not null, note: '한글명: 검사 점주 번호 | 개념 타입: int | 비고: 검사 수행 점주']
+  image_url varchar(1000) [not null, note: '한글명: 검사 이미지 URL | 개념 타입: string | 비고: 촬영 이미지 경로']
+  model_grade varchar(20) [not null, note: '한글명: 모델 예측 등급 | 개념 타입: enum | 비고: A, B, C']
+  freshness_score decimal(5,2) [not null, note: '한글명: 신선도 점수 | 개념 타입: double | 비고: 0~100']
+  color_score decimal(5,2) [not null, note: '한글명: 색상 점수 | 개념 타입: double | 비고: 0~100']
+  roundness_score decimal(5,2) [not null, note: '한글명: 둥근 정도 점수 | 개념 타입: double | 비고: 0~100']
+  bruise_probability decimal(5,4) [not null, note: '한글명: 멍 확률 | 개념 타입: double | 비고: 0~1']
+  model_decision varchar(20) [not null, note: '한글명: 모델 판정 | 개념 타입: enum | 비고: PASS, REVIEW, HOLD']
+  owner_confirmed_grade varchar(20) [note: '한글명: 점주 확정 등급 | 개념 타입: enum | 비고: 점주 최종 등급']
+  owner_decision varchar(20) [note: '한글명: 점주 확정 판정 | 개념 타입: enum | 비고: PASS, HOLD']
+  model_version varchar(50) [not null, note: '한글명: 모델 버전 | 개념 타입: string | 비고: DL 모델 버전']
+  inspected_at datetime [not null, note: '한글명: 검사 일시 | 개념 타입: datetime | 비고: 검사 시간']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 신선도 검사 | 설명: 발주 품목에 대해 점주 앱에서 촬영한 이미지의 DL 판별 결과와 점주 확정 판단이다.'
+}
+
+Table shipments {
+  shipment_id bigint [pk, increment, not null, note: '한글명: 배송 번호 | 개념 타입: int | 비고: 배송 식별자']
+  order_id bigint [not null, unique, note: '한글명: 주문 번호 | 개념 타입: int | 비고: 배송 대상 주문']
+  carrier_name varchar(100) [not null, note: '한글명: 택배사명 | 개념 타입: string | 비고: 배송사명']
+  tracking_no varchar(100) [not null, note: '한글명: 송장 번호 | 개념 타입: string | 비고: 송장번호']
+  shipped_package_count int [not null, note: '한글명: 발송 포장 개수 | 개념 타입: int | 비고: 발송 박스 수']
+  shipped_kg decimal(10,2) [not null, note: '한글명: 발송 kg | 개념 타입: double | 비고: 발송 수량']
+  shipment_status varchar(30) [not null, default: 'READY', note: '한글명: 배송 상태 | 개념 타입: enum | 비고: READY, SHIPPED, DELIVERED']
+  shipped_at datetime [note: '한글명: 발송 일시 | 개념 타입: datetime | 비고: 발송 시간']
+  delivered_at datetime [note: '한글명: 배송 완료 일시 | 개념 타입: datetime | 비고: 배송 완료 시간']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 배송 | 설명: 주문 단위 배송 정보다. MVP에서는 주문 1건당 배송 정보 최대 1건으로 처리한다.'
+}
+
+Table return_requests {
+  return_request_id bigint [pk, increment, not null, note: '한글명: 반품 요청 번호 | 개념 타입: int | 비고: 반품 요청 식별자']
+  order_id bigint [not null, unique, note: '한글명: 주문 번호 | 개념 타입: int | 비고: 반품 대상 주문']
+  return_no varchar(50) [not null, unique, note: '한글명: 반품 코드 | 개념 타입: string | 비고: 반품번호']
+  return_status varchar(30) [not null, default: 'REQUESTED', note: '한글명: 반품 상태 | 개념 타입: enum | 비고: REQUESTED, APPROVED, REJECTED, REFUNDED']
+  reason_code varchar(100) [not null, note: '한글명: 사유 코드 | 개념 타입: string | 비고: 반품 사유 코드']
+  reason_detail varchar(1000) [note: '한글명: 사유 상세 | 개념 타입: string | 비고: 고객 입력 상세']
+  evidence_image_url varchar(1000) [note: '한글명: 증빙 이미지 URL | 개념 타입: string | 비고: 고객 첨부 이미지']
+  requested_amount int [not null, note: '한글명: 요청 금액 | 개념 타입: int | 비고: 환불 요청 금액']
+  approved_amount int [not null, default: 0, note: '한글명: 승인 금액 | 개념 타입: int | 비고: 점주 승인 금액']
+  decision_reason varchar(500) [note: '한글명: 결정 사유 | 개념 타입: string | 비고: 승인/거절 사유']
+  requested_at datetime [not null, note: '한글명: 요청 일시 | 개념 타입: datetime | 비고: 반품 요청 시간']
+  decided_at datetime [note: '한글명: 결정 일시 | 개념 타입: datetime | 비고: 점주 결정 시간']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 반품 요청 | 설명: 고객의 주문 단위 반품 요청과 점주 결정 결과다. MVP에서는 주문 1건당 반품 요청 최대 1건으로 처리한다.'
+}
+
+Table refunds {
+  refund_id bigint [pk, increment, not null, note: '한글명: 환불 번호 | 개념 타입: int | 비고: 환불 식별자']
+  return_request_id bigint [not null, unique, note: '한글명: 반품 요청 번호 | 개념 타입: int | 비고: 환불 대상 반품 요청']
+  payment_id bigint [not null, unique, note: '한글명: 결제 번호 | 개념 타입: int | 비고: 환불 대상 결제']
+  refund_status varchar(30) [not null, default: 'REQUESTED', note: '한글명: 환불 상태 | 개념 타입: enum | 비고: REQUESTED, COMPLETED, FAILED']
+  requested_amount int [not null, note: '한글명: 요청 금액 | 개념 타입: int | 비고: 환불 요청 금액']
+  refunded_amount int [not null, default: 0, note: '한글명: 환불 금액 | 개념 타입: int | 비고: 실제 환불 금액']
+  requested_at datetime [not null, note: '한글명: 요청 일시 | 개념 타입: datetime | 비고: 환불 요청 시간']
+  completed_at datetime [note: '한글명: 완료 일시 | 개념 타입: datetime | 비고: 환불 완료 시간']
+  failure_reason varchar(500) [note: '한글명: 실패 사유 | 개념 타입: string | 비고: 실패 사유']
+  created_at datetime [not null, note: '한글명: 생성 일시 | 개념 타입: datetime | 비고: 생성 시간']
+  updated_at datetime [not null, note: '한글명: 수정 일시 | 개념 타입: datetime | 비고: 수정 시간']
+
+  Note: '유형: 엔티티(Entity) | 한글명: 환불 | 설명: 승인된 반품 요청에 대한 Mock 환불 처리 결과다. 반품 요청 1건당 최대 1건, 결제 1건당 최대 1건으로 처리한다.'
+}
+
+// R-001 관계명: 고객 프로필 확장(extends_customer_profile) | accounts 1 -> customer_profiles 0..1 | FK: customer_profiles.account_id -> accounts.account_id | 제약: UNIQUE, NOT NULL
+Ref: accounts.account_id < customer_profiles.account_id
+// R-002 관계명: 점주 프로필 확장(extends_owner_profile) | accounts 1 -> owner_profiles 0..1 | FK: owner_profiles.account_id -> accounts.account_id | 제약: UNIQUE, NOT NULL
+Ref: accounts.account_id < owner_profiles.account_id
+// R-003 관계명: 이메일 인증 이력 보유(has_email_verifications) | accounts 1 -> email_verifications 0..N | FK: email_verifications.account_id -> accounts.account_id | 제약: NOT NULL
+Ref: accounts.account_id < email_verifications.account_id
+// R-004 관계명: 농장 소유(owns_farms) | owner_profiles 1 -> farms 0..N | FK: farms.owner_id -> owner_profiles.owner_id | 제약: NOT NULL
+Ref: owner_profiles.owner_id < farms.owner_id
+// R-005 관계명: 상품 판매(sells_products) | farms 1 -> products 0..N | FK: products.farm_id -> farms.farm_id | 제약: NOT NULL
+Ref: farms.farm_id < products.farm_id
+// R-006 관계명: ML 예측 대상 농장(targets_farm_for_ml) | farms 1 -> ml_predictions 0..N | FK: ml_predictions.farm_id -> farms.farm_id | 제약: NOT NULL
+Ref: farms.farm_id < ml_predictions.farm_id
+// R-007 관계명: ML 예측 대상 상품(targets_product_for_ml) | products 1 -> ml_predictions 0..N | FK: ml_predictions.product_id -> products.product_id | 제약: NOT NULL
+Ref: products.product_id < ml_predictions.product_id
+// R-008 관계명: ML 예측 실행(runs_ml_prediction) | owner_profiles 1 -> ml_predictions 0..N | FK: ml_predictions.created_by_owner_id -> owner_profiles.owner_id | 제약: NOT NULL
+Ref: owner_profiles.owner_id < ml_predictions.created_by_owner_id
+// R-009 관계명: 수확 슬롯 개설(opens_harvest_slots) | farms 1 -> harvest_slots 0..N | FK: harvest_slots.farm_id -> farms.farm_id | 제약: NOT NULL
+Ref: farms.farm_id < harvest_slots.farm_id
+// R-010 관계명: 상품 수확 슬롯 배정(assigns_harvest_slot) | products 1 -> harvest_slots 0..N | FK: harvest_slots.product_id -> products.product_id | 제약: NOT NULL
+Ref: products.product_id < harvest_slots.product_id
+// R-011 관계명: 수확 슬롯 제안 근거(suggests_harvest_slot) | ml_predictions 1 -> harvest_slots 0..N | FK: harvest_slots.prediction_id -> ml_predictions.prediction_id | 제약: NULL 허용
+Ref: ml_predictions.prediction_id < harvest_slots.prediction_id
+// R-012 관계명: 예약 요청(requests_reservation) | customer_profiles 1 -> reservations 0..N | FK: reservations.customer_id -> customer_profiles.customer_id | 제약: NOT NULL
+Ref: customer_profiles.customer_id < reservations.customer_id
+// R-013 관계명: 예약 품목 포함(contains_reservation_items) | reservations 1 -> reservation_items 1..N | FK: reservation_items.reservation_id -> reservations.reservation_id | 제약: NOT NULL
+Ref: reservations.reservation_id < reservation_items.reservation_id
+// R-014 관계명: 예약 대상 슬롯(reserves_harvest_slot) | harvest_slots 1 -> reservation_items 0..N | FK: reservation_items.slot_id -> harvest_slots.slot_id | 제약: NOT NULL
+Ref: harvest_slots.slot_id < reservation_items.slot_id
+// R-015 관계명: 주문 전환(converts_to_order) | reservations 1 -> orders 0..1 | FK: orders.reservation_id -> reservations.reservation_id | 제약: UNIQUE, NOT NULL
+Ref: reservations.reservation_id < orders.reservation_id
+// R-016 관계명: 주문 품목 포함(contains_order_items) | orders 1 -> order_items 1..N | FK: order_items.order_id -> orders.order_id | 제약: NOT NULL
+Ref: orders.order_id < order_items.order_id
+// R-017 관계명: 예약 품목 주문 전환(converts_to_order_item) | reservation_items 1 -> order_items 0..1 | FK: order_items.reservation_item_id -> reservation_items.reservation_item_id | 제약: UNIQUE, NOT NULL
+Ref: reservation_items.reservation_item_id < order_items.reservation_item_id
+// R-018 관계명: 결제 시도(attempts_payment) | orders 1 -> payments 0..N | FK: payments.order_id -> orders.order_id | 제약: NOT NULL
+Ref: orders.order_id < payments.order_id
+// R-019 관계명: 발주 생성(creates_procurement) | orders 1 -> procurements 0..1 | FK: procurements.order_id -> orders.order_id | 제약: UNIQUE, NOT NULL
+Ref: orders.order_id < procurements.order_id
+// R-020 관계명: 발주 대상 농장(targets_farm_for_procurement) | farms 1 -> procurements 0..N | FK: procurements.farm_id -> farms.farm_id | 제약: NOT NULL
+Ref: farms.farm_id < procurements.farm_id
+// R-021 관계명: 발주 담당 점주(assigned_owner_for_procurement) | owner_profiles 1 -> procurements 0..N | FK: procurements.owner_id -> owner_profiles.owner_id | 제약: NOT NULL
+Ref: owner_profiles.owner_id < procurements.owner_id
+// R-022 관계명: 발주 품목 포함(contains_procurement_items) | procurements 1 -> procurement_items 1..N | FK: procurement_items.procurement_id -> procurements.procurement_id | 제약: NOT NULL
+Ref: procurements.procurement_id < procurement_items.procurement_id
+// R-023 관계명: 발주 대상 주문 품목(procures_order_item) | order_items 1 -> procurement_items 0..1 | FK: procurement_items.order_item_id -> order_items.order_item_id | 제약: UNIQUE, NOT NULL
+Ref: order_items.order_item_id < procurement_items.order_item_id
+// R-024 관계명: 신선도 검사 대상(inspects_procurement_item) | procurement_items 1 -> quality_inspections 0..N | FK: quality_inspections.procurement_item_id -> procurement_items.procurement_item_id | 제약: NOT NULL
+Ref: procurement_items.procurement_item_id < quality_inspections.procurement_item_id
+// R-025 관계명: 신선도 검사 수행(performs_quality_inspection) | owner_profiles 1 -> quality_inspections 0..N | FK: quality_inspections.owner_id -> owner_profiles.owner_id | 제약: NOT NULL
+Ref: owner_profiles.owner_id < quality_inspections.owner_id
+// R-026 관계명: 배송 생성(creates_shipment) | orders 1 -> shipments 0..1 | FK: shipments.order_id -> orders.order_id | 제약: UNIQUE, NOT NULL
+Ref: orders.order_id < shipments.order_id
+// R-027 관계명: 반품 요청 생성(creates_return_request) | orders 1 -> return_requests 0..1 | FK: return_requests.order_id -> orders.order_id | 제약: UNIQUE, NOT NULL
+Ref: orders.order_id < return_requests.order_id
+// R-028 관계명: 환불 요청 연결(creates_refund) | return_requests 1 -> refunds 0..1 | FK: refunds.return_request_id -> return_requests.return_request_id | 제약: UNIQUE, NOT NULL
+Ref: return_requests.return_request_id < refunds.return_request_id
+// R-029 관계명: 환불 대상 결제(refunds_payment) | payments 1 -> refunds 0..1 | FK: refunds.payment_id -> payments.payment_id | 제약: UNIQUE, NOT NULL
+Ref: payments.payment_id < refunds.payment_id
