@@ -445,6 +445,25 @@ body {
   white-space: pre-wrap;
 }
 
+.summary-card {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: var(--md-sys-shape-corner-medium);
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  display: grid;
+  gap: 6px;
+  line-height: 1.55;
+}
+
+.summary-card strong {
+  color: var(--md-sys-color-primary);
+}
+
+.summary-card span {
+  color: var(--md-sys-color-on-surface-variant);
+}
+
 .list {
   display: grid;
   gap: 12px;

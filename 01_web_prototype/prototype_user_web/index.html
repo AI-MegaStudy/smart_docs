@@ -703,13 +703,13 @@
         <div class="brand-seal"><i data-lucide="sprout"></i></div>
         <div>
           <h1>Harvest Slot 사용자 예약웹</h1>
-          <div class="header-sub">Flutter Web 구현 기준 · ERD/API/화면정의서 기반 14개 화면 고충실도 목업</div>
+          <div class="header-sub">고객 예약 흐름 전체 화면 시안</div>
         </div>
       </div>
       <div class="toolbar">
-        <div class="toggle" aria-label="viewport toggle">
-          <button class="active" data-mode="desktop">Desktop</button>
-          <button data-mode="mobile">Mobile</button>
+        <div class="toggle" aria-label="화면 크기 선택">
+          <button class="active" data-mode="desktop">데스크톱</button>
+          <button data-mode="mobile">모바일</button>
         </div>
       </div>
     </header>
@@ -717,19 +717,19 @@
     <section class="intro">
       <div class="intro-copy">
         <h2>수확 슬롯을 기준으로 예약부터 반품까지 이어지는 고객용 반응형 웹</h2>
-        <p>15번 Flutter 사용자 웹 구현가이드의 라우트와 pages/widgets 구조를 기준으로 잡고, 고객에게는 ML 예측값이 아니라 점주가 확정한 수확 예정 범위, 예약 가능 수량, 판매가, 배송/반품 정책만 명확히 노출한다는 문서 원칙을 화면 언어로 정리했습니다.</p>
+        <p>고객이 수확 예정 범위, 예약 가능 수량, 판매가, 배송과 반품 상태를 한눈에 확인할 수 있도록 전체 예약 흐름을 화면 단위로 정리했습니다.</p>
       </div>
       <div class="spec-strip">
-        <div class="spec"><strong>14 Screens</strong><span>C-001 홈부터 C-014 반품 신청까지 전체 라우트 포함</span></div>
-        <div class="spec"><strong>예약 ACID</strong><span>로컬 예약함 → 서버 예약 점유 → 주문 전환 흐름 강조</span></div>
-        <div class="spec"><strong>Flutter Pages</strong><span>HomePage부터 ReturnRequestPage까지 구현가이드 화면명과 매핑</span></div>
-        <div class="spec"><strong>Responsive</strong><span>상단 토글로 데스크톱과 모바일 레이아웃을 즉시 비교</span></div>
+        <div class="spec"><strong>14개 화면</strong><span>홈부터 반품 신청까지 전체 흐름 포함</span></div>
+        <div class="spec"><strong>예약 흐름</strong><span>예약함에서 주문 완료까지 단계별 흐름 강조</span></div>
+        <div class="spec"><strong>화면 구성</strong><span>주요 고객 화면을 순서대로 비교</span></div>
+        <div class="spec"><strong>반응형 보기</strong><span>상단 토글로 데스크톱과 모바일 레이아웃을 즉시 비교</span></div>
       </div>
     </section>
 
     <main class="screen-grid">
       <section class="screen-card">
-        <div class="screen-title"><h3>C-001 홈</h3><span>/ · GET /products?featured=true</span></div>
+        <div class="screen-title"><h3>홈</h3><span>이번 주 예약 가능 상품</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/</div></div>
           <div class="page">
             <nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="leaf"></i></span>Harvest Slot</div><div class="nav-links"><span class="hide-sm">상품</span><span class="hide-sm">예약 안내</span><span>로그인</span><button class="primary-btn"><i data-lucide="shopping-basket"></i>예약함</button></div></nav>
@@ -738,11 +738,11 @@
               <div class="hero-photo" style="background-image:url('https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=1000&q=80')"><div class="floating-note"><strong>10.12-10.18</strong><span>충주 햇살농원 후지 사과 수확 예정</span></div></div>
             </div>
             <div class="content">
-              <div class="section-head"><div><span class="eyebrow">추천 예약 상품</span><h4>이번 주 오픈 슬롯</h4></div><button class="ghost-btn"><i data-lucide="arrow-right"></i>전체 보기</button></div>
+              <div class="section-head"><div><span class="eyebrow">추천 예약 상품</span><h4>이번 주 예약 가능 상품</h4></div><button class="ghost-btn"><i data-lucide="arrow-right"></i>전체 보기</button></div>
               <div class="product-grid">
-                <article class="product-card"><img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=600&q=80" alt=""><div class="product-body"><h5>후지 사과 5kg</h5><div class="meta"><span>충주 햇살농원</span><span class="pill">OPEN</span></div><div class="price">39,000원</div></div></article>
+                <article class="product-card"><img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=600&q=80" alt=""><div class="product-body"><h5>후지 사과 5kg</h5><div class="meta"><span>충주 햇살농원</span><span class="pill">예약 가능</span></div><div class="price">39,000원</div></div></article>
                 <article class="product-card"><img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&w=600&q=80" alt=""><div class="product-body"><h5>홍로 사과 3kg</h5><div class="meta"><span>예산 붉은농원</span><span class="pill yellow">잔여 42kg</span></div><div class="price">32,000원</div></div></article>
-                <article class="product-card"><img src="https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?auto=format&fit=crop&w=600&q=80" alt=""><div class="product-body"><h5>시나노골드 사과 4kg</h5><div class="meta"><span>문경 솔빛농장</span><span class="pill">OPEN</span></div><div class="price">46,000원</div></div></article>
+                <article class="product-card"><img src="https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?auto=format&fit=crop&w=600&q=80" alt=""><div class="product-body"><h5>시나노골드 사과 4kg</h5><div class="meta"><span>문경 솔빛농장</span><span class="pill">예약 가능</span></div><div class="price">46,000원</div></div></article>
               </div>
             </div>
           </div>
@@ -750,12 +750,12 @@
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-002 상품 목록</h3><span>/products · GET /products</span></div>
+        <div class="screen-title"><h3>상품 목록</h3><span>수확 예정 상품</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/products</div></div>
           <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="leaf"></i></span>Harvest Slot</div><div class="nav-links"><span class="hide-sm">예약 가능 우선</span><button class="icon-btn"><i data-lucide="sliders-horizontal"></i></button></div></nav>
-            <div class="content"><div class="section-head"><div><span class="eyebrow">예약 가능한 상품</span><h4>사과 품종과 수확 예정 범위를 함께 확인</h4><p>product_status=ACTIVE, slot_status=OPEN 상품을 우선 표시합니다.</p></div></div>
+            <div class="content"><div class="section-head"><div><span class="eyebrow">예약 가능한 상품</span><h4>사과 품종과 수확 예정 범위를 함께 확인</h4><p>예약 가능한 상품을 우선 표시합니다.</p></div></div>
               <div class="filters"><span class="filter-chip active">전체</span><span class="filter-chip">후지</span><span class="filter-chip">홍로</span><span class="filter-chip">시나노골드</span><span class="filter-chip">잔여 많은 순</span></div>
-              <div class="list-layout"><aside class="side-panel"><h5>검색 조건</h5><div class="check-row"><span>OPEN 슬롯</span><strong>8</strong></div><div class="check-row"><span>5kg 이하</span><strong>4</strong></div><div class="check-row"><span>10월 수확</span><strong>6</strong></div><div class="check-row"><span>직배송</span><strong>9</strong></div></aside>
+              <div class="list-layout"><aside class="side-panel"><h5>검색 조건</h5><div class="check-row"><span>예약 가능</span><strong>8</strong></div><div class="check-row"><span>5kg 이하</span><strong>4</strong></div><div class="check-row"><span>10월 수확</span><strong>6</strong></div><div class="check-row"><span>직배송</span><strong>9</strong></div></aside>
                 <div class="product-grid">
                   <article class="product-card"><img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=600&q=80" alt=""><div class="product-body"><h5>후지 사과 5kg</h5><div class="meta"><span class="pill">10.12-10.18</span><span>잔여 185kg</span></div><div class="price">39,000원</div></div></article>
                   <article class="product-card"><img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&w=600&q=80" alt=""><div class="product-body"><h5>홍로 사과 3kg</h5><div class="meta"><span class="pill yellow">10.20-10.27</span><span>잔여 42kg</span></div><div class="price">32,000원</div></div></article>
@@ -766,82 +766,82 @@
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-003 상품 상세</h3><span>/products/{productId} · slots</span></div>
+        <div class="screen-title"><h3>상품 상세</h3><span>수확 슬롯 예약</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/products/3</div></div>
           <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="leaf"></i></span>Harvest Slot</div><div class="nav-links"><button class="icon-btn"><i data-lucide="heart"></i></button><button class="primary-btn"><i data-lucide="shopping-basket"></i>담기</button></div></nav>
             <div class="content"><div class="detail-layout"><div class="detail-img"><img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=900&q=80" alt=""><div class="product-body"><span class="pill">충주 햇살농원</span><h5 style="margin-top:10px">당도 선별 후지 사과</h5><p style="color:var(--muted);line-height:1.6;font-size:13px">점주가 확정한 수확 슬롯 기준으로만 예약됩니다.</p></div></div>
               <div class="detail-copy"><span class="eyebrow">후지 · 5.00kg 포장</span><h4>후지 사과 5kg</h4><div class="price">39,000원 / 박스</div>
-                <div class="slot-card selected"><div class="slot-top"><div><strong>10.12-10.18 수확 예정</strong><div class="meta">확정 예약 가능 300kg · 판매 45kg · 예약 점유 70kg</div></div><span class="pill">잔여 185kg</span></div><div class="progress"><span style="width:38%"></span></div><div class="qty"><span>-</span><span>2</span><span>+</span></div></div>
-                <div class="slot-card"><div class="slot-top"><div><strong>10.19-10.25 수확 예정</strong><div class="meta">확정 예약 가능 180kg · 예약 점유 22kg</div></div><span class="pill yellow">잔여 158kg</span></div><div class="progress"><span style="width:12%"></span></div></div>
+                <div class="slot-card selected"><div class="slot-top"><div><strong>10.12-10.18 수확 예정</strong><div class="meta">예약 가능 300kg · 판매 45kg · 예약 70kg</div></div><span class="pill">잔여 185kg</span></div><div class="progress"><span style="width:38%"></span></div><div class="qty"><span>-</span><span>2</span><span>+</span></div></div>
+                <div class="slot-card"><div class="slot-top"><div><strong>10.19-10.25 수확 예정</strong><div class="meta">예약 가능 180kg · 예약 22kg</div></div><span class="pill yellow">잔여 158kg</span></div><div class="progress"><span style="width:12%"></span></div></div>
                 <div class="notice-box"><strong>안내</strong><br>농가가 확정한 수확 예정 범위입니다. 기상과 생육 상황에 따라 일정이 조정될 수 있습니다.</div>
               </div></div></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-004 로컬 예약함</h3><span>/basket · local storage</span></div>
+        <div class="screen-title"><h3>예약함</h3><span>예약 전 임시 보관</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/basket</div></div>
-          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="shopping-basket"></i></span>예약함</div><div class="nav-links"><span>서버 저장 전</span></div></nav>
-            <div class="content"><div class="section-head"><div><span class="eyebrow">LocalBasketStore</span><h4>선택한 수확 슬롯 확인</h4><p>예약 생성 전까지 서버 기록은 남지 않습니다.</p></div></div>
+          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="shopping-basket"></i></span>예약함</div><div class="nav-links"><span>예약 확정 전</span></div></nav>
+            <div class="content"><div class="section-head"><div><span class="eyebrow">예약 전 임시 보관</span><h4>선택한 수확 슬롯 확인</h4><p>수확 일정과 박스 수량을 확인한 뒤 예약 확인 단계로 이동하세요.</p></div></div>
               <div class="two-col"><div class="form-panel">
                 <div class="basket-item"><img class="thumb" src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">후지 사과 5kg</h5><div class="meta"><span>10.12-10.18</span><span>2박스 · 10kg</span></div></div><div class="item-action"><div class="qty"><span>-</span><span>2</span><span>+</span></div></div></div>
                 <div class="basket-item"><img class="thumb" src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">홍로 사과 3kg</h5><div class="meta"><span>10.20-10.27</span><span>1박스 · 3kg</span></div></div><div class="item-action"><div class="qty"><span>-</span><span>1</span><span>+</span></div></div></div>
-              </div><aside class="summary-panel"><h5>예상 합계</h5><div class="summary-line"><span>총 예약 수량</span><strong>13kg</strong></div><div class="summary-line"><span>상품 금액</span><strong>110,000원</strong></div><div class="summary-line"><span>서버 검증</span><strong>다음 단계</strong></div><div class="total"><span>합계</span><span>110,000원</span></div><div class="footer-actions"><button class="primary-btn"><i data-lucide="check-circle"></i>예약 확인</button></div></aside></div>
+              </div><aside class="summary-panel"><h5>예상 합계</h5><div class="summary-line"><span>총 예약 수량</span><strong>13kg</strong></div><div class="summary-line"><span>상품 금액</span><strong>110,000원</strong></div><div class="summary-line"><span>예약 가능 확인</span><strong>다음 단계</strong></div><div class="total"><span>합계</span><span>110,000원</span></div><div class="footer-actions"><button class="primary-btn"><i data-lucide="check-circle"></i>예약 확인</button></div></aside></div>
             </div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-005 회원가입</h3><span>/signup · POST /auth/customers/signup</span></div>
+        <div class="screen-title"><h3>회원가입</h3><span>고객 계정 생성</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/signup</div></div>
-          <div class="page"><div class="auth-wrap"><div class="auth-art" style="background-image:url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80')"><h4>예약 가능한 수확만 투명하게</h4><p>고객 계정을 만들고 주문 상태를 끝까지 확인하세요.</p></div><form class="auth-form"><h4>고객 회원가입</h4><p>accounts, customer_profiles, email_verifications가 생성됩니다.</p><label>이메일</label><input value="customer@test.com"><label>비밀번호</label><input type="password" value="pass1234!"><label>이름</label><input value="홍길동"><label>전화번호</label><input value="010-1111-2222"><div class="check-row" style="margin:12px 0;border:0"><span>마케팅 수신 동의</span><span class="pill">선택</span></div><button class="primary-btn" type="button"><i data-lucide="mail-check"></i>가입하고 인증하기</button></form></div></div>
+          <div class="page"><div class="auth-wrap"><div class="auth-art" style="background-image:url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80')"><h4>예약 가능한 수확만 투명하게</h4><p>고객 계정을 만들고 주문 상태를 끝까지 확인하세요.</p></div><form class="auth-form"><h4>고객 회원가입</h4><p>예약과 배송 안내를 받을 계정을 만듭니다.</p><label>이메일</label><input value="customer@test.com"><label>비밀번호</label><input type="password" value="pass1234!"><label>이름</label><input value="홍길동"><label>전화번호</label><input value="010-1111-2222"><div class="check-row" style="margin:12px 0;border:0"><span>마케팅 수신 동의</span><span class="pill">선택</span></div><button class="primary-btn" type="button"><i data-lucide="mail-check"></i>가입하고 인증하기</button></form></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-006 이메일 인증</h3><span>/verify-email · POST /auth/email/verify</span></div>
+        <div class="screen-title"><h3>이메일 인증</h3><span>이메일 확인</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/verify-email</div></div>
-          <div class="page"><div class="auth-wrap"><div class="auth-art" style="background-image:url('https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?auto=format&fit=crop&w=900&q=80')"><h4>이메일 인증 후 예약을 계속합니다</h4><p>인증 완료 시 accounts.email_verified=true로 갱신됩니다.</p></div><div class="auth-form"><h4>인증 코드 입력</h4><p>customer@test.com으로 보낸 6자리 코드를 입력하세요.</p><div class="verify-code"><div>4</div><div>8</div><div>1</div><div>0</div><div>2</div><div>7</div></div><div class="summary-line"><span>만료까지</span><strong>04:58</strong></div><div class="footer-actions"><button class="ghost-btn"><i data-lucide="rotate-cw"></i>재발송</button><button class="primary-btn"><i data-lucide="check"></i>인증 완료</button></div></div></div></div>
+          <div class="page"><div class="auth-wrap"><div class="auth-art" style="background-image:url('https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?auto=format&fit=crop&w=900&q=80')"><h4>이메일 인증 후 예약을 계속합니다</h4><p>메일로 받은 6자리 인증 코드를 입력하세요.</p></div><div class="auth-form"><h4>인증 코드 입력</h4><p>customer@test.com으로 보낸 6자리 코드를 입력하세요.</p><div class="verify-code"><div>4</div><div>8</div><div>1</div><div>0</div><div>2</div><div>7</div></div><div class="summary-line"><span>만료까지</span><strong>04:58</strong></div><div class="footer-actions"><button class="ghost-btn"><i data-lucide="rotate-cw"></i>재발송</button><button class="primary-btn"><i data-lucide="check"></i>인증 완료</button></div></div></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-007 로그인</h3><span>/login · POST /auth/login</span></div>
+        <div class="screen-title"><h3>로그인</h3><span>예약 내역을 이어서 확인</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/login</div></div>
-          <div class="page"><div class="auth-wrap"><div class="auth-art" style="background-image:url('https://images.unsplash.com/photo-1516594798947-e65505dbb29d?auto=format&fit=crop&w=900&q=80')"><h4>예약함을 주문으로 전환하려면 로그인하세요</h4><p>JWT 저장 후 이전 화면으로 돌아갑니다.</p></div><form class="auth-form"><h4>로그인</h4><p>예약 확인, 주문서 작성, 주문 상세 조회에 필요합니다.</p><label>이메일</label><input value="customer@test.com"><label>비밀번호</label><input type="password" value="pass1234!"><div class="footer-actions"><button class="ghost-btn" type="button">회원가입</button><button class="primary-btn" type="button"><i data-lucide="log-in"></i>로그인</button></div></form></div></div>
+          <div class="page"><div class="auth-wrap"><div class="auth-art" style="background-image:url('https://images.unsplash.com/photo-1516594798947-e65505dbb29d?auto=format&fit=crop&w=900&q=80')"><h4>예약함을 주문으로 전환하려면 로그인하세요</h4><p>로그인 후 이전 화면으로 돌아갑니다.</p></div><form class="auth-form"><h4>로그인</h4><p>예약 확인, 주문서 작성, 주문 상세 조회에 필요합니다.</p><label>이메일</label><input value="customer@test.com"><label>비밀번호</label><input type="password" value="pass1234!"><div class="footer-actions"><button class="ghost-btn" type="button">회원가입</button><button class="primary-btn" type="button"><i data-lucide="log-in"></i>로그인</button></div></form></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-008 예약 확인</h3><span>/reservation/confirm · POST /reservations</span></div>
+        <div class="screen-title"><h3>예약 확인</h3><span>예약 가능 여부 최종 확인</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/reservation/confirm</div></div>
-          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="lock-keyhole"></i></span>예약 확인</div><div class="nav-links"><span class="pill yellow">점유 전 최종 검증</span></div></nav><div class="content"><div class="two-col"><div class="form-panel"><h5>예약 품목</h5><div class="basket-item"><img class="thumb" src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">후지 사과 5kg</h5><div class="meta"><span>slot_id 12</span><span>2박스 · 10kg</span><span>10.12-10.18</span></div></div><strong>78,000원</strong></div><div class="basket-item"><img class="thumb" src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">홍로 사과 3kg</h5><div class="meta"><span>slot_id 18</span><span>1박스 · 3kg</span><span>10.20-10.27</span></div></div><strong>32,000원</strong></div><div class="notice-box">예약 생성 시 서버가 harvest_slots 행을 잠그고 available_kg를 최종 검증합니다. 예약 점유 시간은 생성 후 20분입니다.</div></div><aside class="summary-panel"><h5>예약 생성 요청</h5><div class="summary-line"><span>총 예약 kg</span><strong>13kg</strong></div><div class="summary-line"><span>reserved_until</span><strong>20분 후</strong></div><div class="total"><span>결제 예정</span><span>110,000원</span></div><div class="footer-actions"><button class="primary-btn"><i data-lucide="server"></i>서버 예약 생성</button></div></aside></div></div></div>
+          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="lock-keyhole"></i></span>예약 확인</div><div class="nav-links"><span class="pill yellow">예약 확정 전</span></div></nav><div class="content"><div class="two-col"><div class="form-panel"><h5>예약 품목</h5><div class="basket-item"><img class="thumb" src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">후지 사과 5kg</h5><div class="meta"><span>10.12-10.18 수확 예정</span><span>2박스 · 10kg</span><span class="pill">예약 가능 185kg</span></div></div><strong>78,000원</strong></div><div class="basket-item"><img class="thumb" src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">홍로 사과 3kg</h5><div class="meta"><span>10.20-10.27 수확 예정</span><span>1박스 · 3kg</span><span class="pill yellow">예약 가능 42kg</span></div></div><strong>32,000원</strong></div><div class="notice-box">예약을 확정하면 농가의 잔여 수량을 다시 확인하고 20분 동안 주문 진행이 가능하도록 보관합니다.</div></div><aside class="summary-panel"><h5>예약 확정 요청</h5><div class="summary-line"><span>총 예약량</span><strong>13kg</strong></div><div class="summary-line"><span>점유 시간</span><strong>20분</strong></div><div class="total"><span>결제 예정</span><span>110,000원</span></div><div class="footer-actions"><button class="primary-btn"><i data-lucide="check-circle"></i>예약 확정하기</button></div></aside></div></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-009 주문서 작성</h3><span>/checkout/{reservationId} · POST /orders/from-reservation</span></div>
+        <div class="screen-title"><h3>주문서 작성</h3><span>배송지와 결제 전 확인</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/checkout/5</div></div>
-          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="clipboard-list"></i></span>주문서</div><div class="nav-links"><span class="pill">RESERVED</span></div></nav><div class="content"><div class="two-col"><form class="form-panel"><h5>배송 정보</h5><label>수령인</label><input value="홍길동"><label>전화번호</label><input value="010-1111-2222"><label>배송 주소</label><input value="서울시 강남구 테헤란로 123"><label>배송 메모</label><select><option>문 앞에 놓아주세요</option></select><div class="notice-box">예약 상태가 RESERVED이고 만료 전일 때만 주문으로 전환됩니다.</div></form><aside class="summary-panel"><h5>예약 RES-20261012-005</h5><div class="summary-line"><span>상품</span><strong>사과 2종</strong></div><div class="summary-line"><span>예약 만료</span><strong>19:12 남음</strong></div><div class="summary-line"><span>배송비</span><strong>무료</strong></div><div class="total"><span>주문 금액</span><span>110,000원</span></div><div class="footer-actions"><button class="primary-btn"><i data-lucide="arrow-right"></i>주문 생성</button></div></aside></div></div></div>
+          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="clipboard-list"></i></span>주문서</div><div class="nav-links"><span class="pill">예약 보관 중</span></div></nav><div class="content"><div class="two-col"><form class="form-panel"><h5>배송 정보</h5><label>수령인</label><input value="홍길동"><label>전화번호</label><input value="010-1111-2222"><label>배송 주소</label><input value="서울시 강남구 테헤란로 123"><label>배송 메모</label><select><option>문 앞에 놓아주세요</option></select><div class="notice-box">예약 보관 시간이 만료되기 전에만 주문을 생성할 수 있습니다.</div></form><aside class="summary-panel"><h5>예약 RES-20261012-005</h5><div class="summary-line"><span>상품</span><strong>사과 2종</strong></div><div class="summary-line"><span>예약 만료</span><strong>19:12 남음</strong></div><div class="summary-line"><span>배송비</span><strong>무료</strong></div><div class="total"><span>주문 금액</span><span>110,000원</span></div><div class="footer-actions"><button class="primary-btn"><i data-lucide="arrow-right"></i>주문 생성</button></div></aside></div></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-010 Mock 결제</h3><span>/payment/{orderId} · POST /payments/mock-approve</span></div>
+        <div class="screen-title"><h3>결제</h3><span>카드 결제 승인</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/payment/8</div></div>
-          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="credit-card"></i></span>Mock 결제</div><div class="nav-links"><span class="pill blue">PAYMENT_PENDING</span></div></nav><div class="content"><div class="two-col"><div class="form-panel"><h5>결제 수단</h5><div class="payment-card"><small>MOCK_CARD</small><strong>**** 4810 2027</strong><small>idempotency_key · order-8-pay-001</small></div><div class="notice-box">승인 성공 시 orders는 PAID 후 PROCUREMENT_REQUESTED로 이동하고, procurements가 생성됩니다.</div></div><aside class="summary-panel"><h5>주문 ORD-20261012-008</h5><div class="summary-line"><span>요청 금액</span><strong>110,000원</strong></div><div class="summary-line"><span>결제 제공자</span><strong>MOCK</strong></div><div class="summary-line"><span>승인 상태</span><strong>대기</strong></div><div class="total"><span>승인 금액</span><span>110,000원</span></div><div class="footer-actions"><button class="primary-btn"><i data-lucide="badge-check"></i>결제 승인</button></div></aside></div></div></div>
+          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="credit-card"></i></span>결제</div><div class="nav-links"><span class="pill blue">결제 대기</span></div></nav><div class="content"><div class="two-col"><div class="form-panel"><h5>결제 수단</h5><div class="payment-card"><small>테스트 카드</small><strong>**** 4810 2027</strong><small>주문번호 ORD-20261012-008</small></div><div class="notice-box">결제가 승인되면 농가 확인 단계로 이동합니다.</div></div><aside class="summary-panel"><h5>주문 ORD-20261012-008</h5><div class="summary-line"><span>요청 금액</span><strong>110,000원</strong></div><div class="summary-line"><span>결제 수단</span><strong>카드</strong></div><div class="summary-line"><span>승인 상태</span><strong>대기</strong></div><div class="total"><span>승인 금액</span><span>110,000원</span></div><div class="footer-actions"><button class="primary-btn"><i data-lucide="badge-check"></i>결제 승인</button></div></aside></div></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-011 주문 완료</h3><span>/orders/complete/{orderId} · GET /me/orders/{orderId}</span></div>
+        <div class="screen-title"><h3>주문 완료</h3><span>결제 완료와 농가 확인</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/orders/complete/8</div></div>
-          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="party-popper"></i></span>주문 완료</div><div class="nav-links"><span class="pill blue">농가 확인 중</span></div></nav><div class="complete-panel"><div><div class="complete-mark"><i data-lucide="check" style="width:34px;height:34px"></i></div><h4>예약 주문이 완료되었습니다</h4><p>주문번호 ORD-20261012-008의 결제가 승인되었습니다. 농가가 수확 가능 수량을 확인하는 동안 상태를 계속 안내합니다.</p><div class="spec-strip" style="margin-top:24px"><div class="spec"><strong>110,000원</strong><span>결제 금액</span></div><div class="spec"><strong>PROCUREMENT_REQUESTED</strong><span>현재 주문 상태</span></div></div><div class="footer-actions" style="justify-content:center"><button class="ghost-btn"><i data-lucide="home"></i>홈으로</button><button class="primary-btn"><i data-lucide="file-search"></i>주문 상세</button></div></div></div></div>
+          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="party-popper"></i></span>주문 완료</div><div class="nav-links"><span class="pill blue">농가 확인 중</span></div></nav><div class="complete-panel"><div><div class="complete-mark"><i data-lucide="check" style="width:34px;height:34px"></i></div><h4>예약 주문이 완료되었습니다</h4><p>주문번호 ORD-20261012-008의 결제가 승인되었습니다. 농가가 수확 가능 수량을 확인하는 동안 상태를 계속 안내합니다.</p><div class="spec-strip" style="margin-top:24px"><div class="spec"><strong>110,000원</strong><span>결제 금액</span></div><div class="spec"><strong>농가 확인 중</strong><span>현재 주문 상태</span></div></div><div class="footer-actions" style="justify-content:center"><button class="ghost-btn"><i data-lucide="home"></i>홈으로</button><button class="primary-btn"><i data-lucide="file-search"></i>주문 상세</button></div></div></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-012 마이페이지 주문 목록</h3><span>/me/orders · GET /me/orders</span></div>
+        <div class="screen-title"><h3>내 주문</h3><span>주문 내역</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/me/orders</div></div>
           <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="user-round"></i></span>내 주문</div><div class="nav-links"><button class="icon-btn"><i data-lucide="search"></i></button></div></nav><div class="content"><div class="section-head"><div><span class="eyebrow">주문 상태 추적</span><h4>최근 예약 주문</h4></div></div><div class="form-panel">
             <div class="order-card"><img class="thumb" src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">ORD-20261012-008</h5><div class="meta"><span>후지 사과 외 1건</span><span>2026.10.12</span></div></div><div class="item-action"><span class="pill blue">농가 확인 중</span><div class="price" style="font-size:15px">110,000원</div></div></div>
@@ -852,16 +852,16 @@
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-013 주문 상세</h3><span>/me/orders/{orderId} · shipment/status</span></div>
+        <div class="screen-title"><h3>주문 상세</h3><span>주문 진행 상태</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/me/orders/8</div></div>
-          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="route"></i></span>주문 상세</div><div class="nav-links"><span class="pill">SHIPPED</span></div></nav><div class="content"><div class="two-col"><div class="form-panel"><h5>상태 타임라인</h5><div class="timeline"><div class="step"><span class="node"><i data-lucide="check"></i></span><div><strong>결제 완료</strong><br><span>Mock 결제가 승인되었습니다.</span></div><span class="step-time">10.12 14:02</span></div><div class="step"><span class="node"><i data-lucide="check"></i></span><div><strong>농가 승인 완료</strong><br><span>점주가 수확 가능 수량을 승인했습니다.</span></div><span class="step-time">10.12 16:20</span></div><div class="step"><span class="node"><i data-lucide="check"></i></span><div><strong>선별 완료</strong><br><span>사과 신선도 선별 후 출고 준비 완료.</span></div><span class="step-time">10.18 09:40</span></div><div class="step"><span class="node"><i data-lucide="truck"></i></span><div><strong>배송 중</strong><br><span>CJ대한통운 5891-1202-4810</span></div><span class="step-time">현재</span></div><div class="step"><span class="node pending"></span><div><strong>배송 완료</strong><br><span>완료 후 반품 신청 가능</span></div><span class="step-time">예정</span></div></div></div><aside class="summary-panel"><h5>주문 요약</h5><div class="summary-line"><span>주문번호</span><strong>ORD-20261012-008</strong></div><div class="summary-line"><span>수확 범위</span><strong>10.12-10.18</strong></div><div class="summary-line"><span>받는 분</span><strong>홍길동</strong></div><div class="summary-line"><span>결제 금액</span><strong>110,000원</strong></div><div class="notice-box">수확 일정은 기상과 생육 상황에 따라 조정될 수 있으며, 변동 시 주문 상세에서 안내됩니다.</div><div class="footer-actions"><button class="ghost-btn"><i data-lucide="package-check"></i>배송 조회</button></div></aside></div></div></div>
+          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="route"></i></span>주문 상세</div><div class="nav-links"><span class="pill">배송 중</span></div></nav><div class="content"><div class="two-col"><div class="form-panel"><h5>상태 타임라인</h5><div class="timeline"><div class="step"><span class="node"><i data-lucide="check"></i></span><div><strong>결제 완료</strong><br><span>카드 결제가 승인되었습니다.</span></div><span class="step-time">10.12 14:02</span></div><div class="step"><span class="node"><i data-lucide="check"></i></span><div><strong>농가 승인 완료</strong><br><span>점주가 수확 가능 수량을 승인했습니다.</span></div><span class="step-time">10.12 16:20</span></div><div class="step"><span class="node"><i data-lucide="check"></i></span><div><strong>선별 완료</strong><br><span>사과 신선도 선별 후 출고 준비 완료.</span></div><span class="step-time">10.18 09:40</span></div><div class="step"><span class="node"><i data-lucide="truck"></i></span><div><strong>배송 중</strong><br><span>CJ대한통운 5891-1202-4810</span></div><span class="step-time">현재</span></div><div class="step"><span class="node pending"></span><div><strong>배송 완료</strong><br><span>완료 후 반품 신청 가능</span></div><span class="step-time">예정</span></div></div></div><aside class="summary-panel"><h5>주문 요약</h5><div class="summary-line"><span>주문번호</span><strong>ORD-20261012-008</strong></div><div class="summary-line"><span>수확 범위</span><strong>10.12-10.18</strong></div><div class="summary-line"><span>받는 분</span><strong>홍길동</strong></div><div class="summary-line"><span>결제 금액</span><strong>110,000원</strong></div><div class="notice-box">수확 일정은 기상과 생육 상황에 따라 조정될 수 있으며, 변동 시 주문 상세에서 안내됩니다.</div><div class="footer-actions"><button class="ghost-btn"><i data-lucide="package-check"></i>배송 조회</button></div></aside></div></div></div>
         </div>
       </section>
 
       <section class="screen-card">
-        <div class="screen-title"><h3>C-014 반품 신청</h3><span>/me/orders/{orderId}/return · POST /returns</span></div>
+        <div class="screen-title"><h3>반품 신청</h3><span>반품 사유와 증빙 등록</span></div>
         <div class="browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">harvestslot.kr/me/orders/8/return</div></div>
-          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="undo-2"></i></span>반품 신청</div><div class="nav-links"><span class="pill yellow">DELIVERED 주문</span></div></nav><div class="content"><div class="two-col"><form class="form-panel"><h5>반품 요청 내용</h5><label>사유 코드</label><select><option>배송 중 파손</option><option>상품 변질</option><option>오배송</option></select><label>상세 사유</label><textarea>박스 외부 파손과 일부 사과 멍이 확인되었습니다.</textarea><label>증빙 이미지</label><div class="upload-box"><div><i data-lucide="image-plus"></i><br>이미지 2장 첨부됨</div></div><label>요청 금액</label><input value="39,000원"></form><aside class="summary-panel"><h5>반품 가능 주문</h5><div class="basket-item" style="padding-top:0"><img class="thumb" src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">후지 사과 5kg</h5><div class="meta"><span>배송 완료</span><span>2박스</span></div></div></div><div class="notice-box" style="background:var(--red-100);border-color:#efbeb6;color:var(--red-700)">반품 요청 등록 후 주문 상태는 RETURN_REQUESTED로 갱신되며, 점주 승인 시 refunds가 생성됩니다.</div><div class="footer-actions"><button class="ghost-btn">취소</button><button class="danger-btn"><i data-lucide="send"></i>반품 요청</button></div></aside></div></div></div>
+          <div class="page"><nav class="app-nav"><div class="mini-brand"><span class="leaf"><i data-lucide="undo-2"></i></span>반품 신청</div><div class="nav-links"><span class="pill yellow">배송 완료 주문</span></div></nav><div class="content"><div class="two-col"><form class="form-panel"><h5>반품 요청 내용</h5><label>반품 사유</label><select><option>배송 중 파손</option><option>상품 변질</option><option>오배송</option></select><label>상세 사유</label><textarea>박스 외부 파손과 일부 사과 멍이 확인되었습니다.</textarea><label>증빙 이미지</label><div class="upload-box"><div><i data-lucide="image-plus"></i><br>파손 사진 2장이 첨부되었습니다</div></div><label>요청 금액</label><input value="39,000원"></form><aside class="summary-panel"><h5>반품 가능 주문</h5><div class="basket-item" style="padding-top:0"><img class="thumb" src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?auto=format&fit=crop&w=300&q=80" alt=""><div><h5 class="item-title">후지 사과 5kg</h5><div class="meta"><span>배송 완료</span><span>2박스</span></div></div></div><div class="notice-box" style="background:var(--red-100);border-color:#efbeb6;color:var(--red-700)">등록 후 반품 접수 상태로 변경됩니다. 농가 확인 후 환불 가능 금액을 안내합니다.</div><div class="footer-actions"><button class="ghost-btn">취소</button><button class="danger-btn"><i data-lucide="send"></i>반품 요청</button></div></aside></div></div></div>
         </div>
       </section>
     </main>
