@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harvest Slot 프로젝트 상세 일정 요약 간트 차트</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --line: #c8ced8;
+      --bg: #f7f8fb;
+      --backend: #2f75b5;
+      --web: #4d9b48;
+      --app: #e17a1a;
+      --ai: #7a3fb0;
+      --doc: #747474;
+      --check: #c79610;
+      --final: #c40000;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--ink);
+      font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .sheet {
+      width: 1920px;
+      height: 1080px;
+      padding: 34px 42px 32px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin: 0 0 26px 18px;
+      font-size: 54px;
+      line-height: 1.12;
+      font-weight: 900;
+    }
+
+    .legend {
+      position: absolute;
+      top: 42px;
+      right: 44px;
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      font-size: 21px;
+      font-weight: 900;
+    }
+
+    .legend .mid { color: var(--check); }
+    .legend .end { color: var(--final); }
+
+    .gantt {
+      display: grid;
+      grid-template-columns: 230px repeat(14, 1fr);
+      grid-template-rows: 58px repeat(5, 162px);
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+
+    .date,
+    .part,
+    .lane {
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+    }
+
+    .date {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      background: #fff;
+    }
+
+    .part {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 25px;
+      line-height: 1.25;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .part small {
+      display: block;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .backend-label { background: #9dc3e6; }
+    .web-label { background: #a9d18e; }
+    .app-label { background: #f4b183; }
+    .ai-label { background: #c6a0dc; }
+    .doc-label { background: #bfbfbf; }
+
+    .lane {
+      position: relative;
+      background:
+        repeating-linear-gradient(to right, transparent 0, transparent calc((100% / 14) - 1px), var(--line) calc((100% / 14) - 1px), var(--line) calc(100% / 14)),
+        #fff;
+      grid-column: 2 / 16;
+    }
+
+    .bar {
+      position: absolute;
+      height: 50px;
+      left: calc((100% / 14) * var(--start) + 8px);
+      width: calc((100% / 14) * var(--span) - 16px);
+      top: var(--top);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      line-height: 1.28;
+      font-weight: 800;
+      white-space: normal;
+      text-align: center;
+      padding: 7px 14px;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,.14), 0 2px 5px rgba(0,0,0,.12);
+      z-index: 3;
+    }
+
+    .bar.wide {
+      font-size: 20px;
+    }
+
+    .bar.compact {
+      font-size: 16px;
+      line-height: 1.24;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    .backend { background: linear-gradient(#3f86c5, var(--backend)); }
+    .web { background: linear-gradient(#5ead55, var(--web)); }
+    .app { background: linear-gradient(#ef8a22, var(--app)); }
+    .ai { background: linear-gradient(#894fc0, var(--ai)); }
+    .doc { background: linear-gradient(#8a8a8a, var(--doc)); }
+
+    .milestone {
+      position: absolute;
+      top: 58px;
+      bottom: 0;
+      width: 4px;
+      background: var(--check);
+      left: calc(230px + (100% - 230px) / 14 * 9);
+      opacity: .46;
+      z-index: 2;
+    }
+
+    .milestone::before,
+    .milestone::after {
+      content: none;
+    }
+
+    .milestone span {
+      display: none;
+    }
+
+    .final {
+      position: absolute;
+      top: 58px;
+      bottom: 0;
+      width: 3px;
+      background: var(--final);
+      right: calc((100% - 230px) / 14 * .5);
+      opacity: .46;
+      z-index: 2;
+    }
+
+    .final::before {
+      content: none;
+    }
+
+    .final span {
+      display: none;
+    }
+
+    @media print {
+      .sheet {
+        width: 100%;
+        min-height: 0;
+        padding: 20px;
+      }
+
+      h1 { font-size: 40px; }
+      .date { font-size: 20px; }
+      .part { font-size: 22px; }
+      .part small { font-size: 17px; }
+      .bar { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <h1>Harvest Slot 프로젝트 상세 일정 (4월 30일 ~ 5월 13일)</h1>
+    <div class="legend" aria-label="마일스톤 범례">
+      <span class="mid">│ 5월 8일 중간 점검</span>
+      <span class="end">│ 5월 13일 최종 발표</span>
+    </div>
+
+    <section class="gantt" aria-label="Harvest Slot 프로젝트 요약 간트 차트">
+      <div class="date" style="grid-column: 2;">4/30</div>
+      <div class="date" style="grid-column: 3;">5/01</div>
+      <div class="date" style="grid-column: 4;">5/02</div>
+      <div class="date" style="grid-column: 5;">5/03</div>
+      <div class="date" style="grid-column: 6;">5/04</div>
+      <div class="date" style="grid-column: 7;">5/05</div>
+      <div class="date" style="grid-column: 8;">5/06</div>
+      <div class="date" style="grid-column: 9;">5/07</div>
+      <div class="date" style="grid-column: 10;">5/08</div>
+      <div class="date" style="grid-column: 11;">5/09</div>
+      <div class="date" style="grid-column: 12;">5/10</div>
+      <div class="date" style="grid-column: 13;">5/11</div>
+      <div class="date" style="grid-column: 14;">5/12</div>
+      <div class="date" style="grid-column: 15;">5/13</div>
+
+      <div class="part backend-label" style="grid-row: 2;">백엔드<br><small>(Backend)</small></div>
+      <div class="lane" style="grid-row: 2;">
+        <div class="bar backend wide" style="--start: 1; --span: 3; --top: 18px;">인증 / 상품 API 개발</div>
+        <div class="bar backend" style="--start: 4; --span: 2; --top: 68px;">슬롯 / 예약<br>API 개발</div>
+        <div class="bar backend" style="--start: 6; --span: 3; --top: 112px;">주문 / 결제 / 물류<br>환불 API</div>
+      </div>
+
+      <div class="part web-label" style="grid-row: 3;">사용자 웹<br><small>(User Web)</small></div>
+      <div class="lane" style="grid-row: 3;">
+        <div class="bar web wide" style="--start: 1; --span: 3; --top: 18px;">홈 / 상품 목록</div>
+        <div class="bar web" style="--start: 4; --span: 2; --top: 68px;">예약 흐름<br>장바구니 / 확정</div>
+        <div class="bar web" style="--start: 6; --span: 3; --top: 112px;">주문 / 결제<br>마이페이지 / 반품</div>
+      </div>
+
+      <div class="part app-label" style="grid-row: 4;">점주 앱<br><small>(Owner App)</small></div>
+      <div class="lane" style="grid-row: 4;">
+        <div class="bar app wide" style="--start: 1; --span: 3; --top: 18px;">대시보드 / 상품 관리</div>
+        <div class="bar app compact" style="--start: 4; --span: 2; --top: 68px;">ML / 수확 슬롯<br>확정 UI</div>
+        <div class="bar app" style="--start: 6; --span: 3; --top: 112px;">발주 승인<br>신선도 검사 / 배송</div>
+      </div>
+
+      <div class="part ai-label" style="grid-row: 5;">AI/데이터<br><small>(AI/Data)</small></div>
+      <div class="lane" style="grid-row: 5;">
+        <div class="bar ai wide" style="--start: 1; --span: 5; --top: 28px;">ML 모델 및 Open API 연동</div>
+        <div class="bar ai" style="--start: 6; --span: 3; --top: 88px;">DL 모델<br>신선도 판별</div>
+      </div>
+
+      <div class="part doc-label" style="grid-row: 6;">문서화<br><small>(Documentation)</small></div>
+      <div class="lane" style="grid-row: 6;">
+        <div class="bar doc wide" style="--start: 1; --span: 8; --top: 18px;">API 문서<br>개발 병행</div>
+        <div class="bar doc compact" style="--start: 9; --span: 2; --top: 74px;">워크플로우 / 아키텍처<br>로직 다이어그램</div>
+        <div class="bar doc" style="--start: 11; --span: 3; --top: 122px;">최종 보고서<br>발표자료</div>
+      </div>
+
+      <div class="milestone"><span>5월 8일: 중간 점검</span></div>
+      <div class="final"><span>최종 발표</span></div>
+    </section>
+  </main>
+</body>
+</html>
