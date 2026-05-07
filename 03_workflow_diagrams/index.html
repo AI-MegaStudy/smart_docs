@@ -8,18 +8,9 @@
     :root {
       --ink: #111815;
       --muted: #58655e;
-      --line: #111815;
       --paper: #fffef9;
       --bg: #f3f4ee;
       --green: #1f5a42;
-      --blue: #dcecff;
-      --blue-line: #527ebd;
-      --yellow: #fff1c5;
-      --yellow-line: #c69a26;
-      --red: #ffd5d5;
-      --red-line: #cf5757;
-      --db: #e7f6ee;
-      --db-line: #25724f;
       --panel: #ffffff;
       --panel-line: #d4ddd5;
     }
@@ -49,21 +40,6 @@
     h1 { font-size: 22px; line-height: 1.22; font-weight: 900; }
     .sub { margin-top: 4px; color: var(--muted); font-size: 13px; }
 
-    .tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .tabs button {
-      height: 36px;
-      padding: 0 14px;
-      border: 1px solid #cbd7cf;
-      border-radius: 999px;
-      background: white;
-      color: var(--ink);
-      font: inherit;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .tabs button.active { background: var(--green); border-color: var(--green); color: white; }
-
     main {
       width: min(100%, 1680px);
       margin: 0 auto;
@@ -71,13 +47,11 @@
     }
 
     .sheet {
-      display: none;
       background: var(--paper);
       border: 1px solid #d6ddd6;
       box-shadow: 0 20px 60px rgba(17, 24, 21, .08);
       padding: 30px;
     }
-    .sheet.active { display: block; }
 
     .sheet-head {
       display: flex;
@@ -89,60 +63,6 @@
 
     .sheet-title { font-size: 26px; font-weight: 900; }
     .sheet-desc { margin-top: 6px; color: var(--muted); font-size: 14px; }
-
-    .legend {
-      width: 420px;
-      min-width: 420px;
-      height: 128px;
-      border: 1px solid var(--panel-line);
-      background: #fff;
-    }
-
-    .flow-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(620px, 1fr));
-      gap: 22px;
-    }
-
-    .flow-panel {
-      background: var(--panel);
-      border: 1px solid var(--panel-line);
-      padding: 18px 18px 14px;
-    }
-
-    .flow-title {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .flow-id { font-size: 13px; font-weight: 900; color: var(--green); }
-    .flow-name { font-size: 18px; font-weight: 900; }
-    .flow-path { margin-left: auto; color: var(--muted); font-size: 12px; }
-
-    svg.flow {
-      display: block;
-      width: 100%;
-      height: 336px;
-      background: #fffefb;
-      border-top: 1px solid #edf1ec;
-    }
-
-    .terminator { fill: var(--blue); stroke: var(--blue-line); stroke-width: 1.6; }
-    .process { fill: #fff; stroke: var(--line); stroke-width: 1.55; }
-    .input { fill: #fff; stroke: var(--line); stroke-width: 1.55; }
-    .decision { fill: #fff; stroke: var(--line); stroke-width: 1.55; }
-    .system { fill: var(--yellow); stroke: var(--yellow-line); stroke-width: 1.55; }
-    .danger { fill: var(--red); stroke: var(--red-line); stroke-width: 1.55; }
-    .db-body { fill: var(--db); stroke: var(--db-line); stroke-width: 1.55; }
-    .db-top { fill: #f7fff9; stroke: var(--db-line); stroke-width: 1.55; }
-    .edge { stroke: var(--line); stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
-    .edge-soft { stroke: #606b64; stroke-width: 1.35; fill: none; marker-end: url(#arrowSoft); }
-    .node-text { font-size: 15px; fill: var(--ink); text-anchor: middle; dominant-baseline: middle; font-weight: 700; }
-    .node-small { font-size: 11px; fill: #26312b; text-anchor: middle; dominant-baseline: middle; }
-    .label { font-size: 13px; fill: #000; font-weight: 900; }
-    .legend-text { font-size: 12px; fill: #111; }
 
     .diagram-groups {
       display: flex;
@@ -245,17 +165,14 @@
 
     @media (max-width: 1320px) {
       main { width: 100%; }
-      .flow-grid { grid-template-columns: 1fr; }
       .diagram-grid { grid-template-columns: 1fr; }
       .sheet-head { display: block; }
-      .legend { margin-top: 16px; }
       .diagram-info { flex-wrap: wrap; }
       .diagram-links { margin-left: 64px; }
     }
 
     @media (max-width: 720px) {
       header { display: block; }
-      .tabs { justify-content: flex-start; margin-top: 14px; }
       main { padding: 14px; }
       .sheet { padding: 18px; }
       .diagram-preview { height: 360px; }
@@ -267,18 +184,12 @@
   <header>
     <div>
       <h1>프로세스 플로우 다이어그램</h1>
-      <p class="sub">전체 이동도가 아니라 각 화면 안에서의 입력, 판단, 처리, DB 사용 지점을 독립 플로우차트로 정리</p>
+      <p class="sub">PPT에 바로 넣을 수 있도록 큰 로직 흐름 단위로 정리한 PNG/SVG 플로우 산출물</p>
     </div>
-    <nav class="tabs" aria-label="다이어그램 선택">
-      <button class="active" data-target="exports">PPT용 이미지</button>
-      <button data-target="customer">고객 예약웹</button>
-      <button data-target="owner">점주앱</button>
-      <button data-target="status">상태·트랜잭션</button>
-    </nav>
   </header>
 
   <main>
-    <section id="exports" class="sheet active">
+    <section id="exports" class="sheet">
       <div class="sheet-head">
         <div>
           <h2 class="sheet-title">PPT 삽입용 대형 플로우 이미지</h2>
@@ -286,39 +197,6 @@
         </div>
       </div>
       <div id="diagramGrid" class="diagram-groups"></div>
-    </section>
-
-    <section id="customer" class="sheet">
-      <div class="sheet-head">
-        <div>
-          <h2 class="sheet-title">고객 예약웹 화면별 플로우</h2>
-          <p class="sheet-desc">C-001부터 C-014까지 각 화면에서 필요한 화면 동작과 DB 사용 구간을 분리했습니다.</p>
-        </div>
-        <svg class="legend" viewBox="0 0 420 128" aria-label="범례"></svg>
-      </div>
-      <div id="customerGrid" class="flow-grid"></div>
-    </section>
-
-    <section id="owner" class="sheet">
-      <div class="sheet-head">
-        <div>
-          <h2 class="sheet-title">점주앱 화면별 플로우</h2>
-          <p class="sheet-desc">O-001부터 O-013까지 Flutter 점주앱 화면 단위로 처리 흐름을 분리했습니다.</p>
-        </div>
-        <svg class="legend" viewBox="0 0 420 128" aria-label="범례"></svg>
-      </div>
-      <div id="ownerGrid" class="flow-grid"></div>
-    </section>
-
-    <section id="status" class="sheet">
-      <div class="sheet-head">
-        <div>
-          <h2 class="sheet-title">상태·트랜잭션 단위 플로우</h2>
-          <p class="sheet-desc">화면 구현자가 상태 변경과 DB 갱신 위치를 확인할 수 있도록 핵심 처리 단위만 분리했습니다.</p>
-        </div>
-        <svg class="legend" viewBox="0 0 420 128" aria-label="범례"></svg>
-      </div>
-      <div id="statusGrid" class="flow-grid"></div>
     </section>
   </main>
 
@@ -406,164 +284,10 @@
       }
     ];
 
-    const customerFlows = [
-      ["C-001", "홈", "/", "input", "화면 진입", "추천 상품 영역 요청", "표시 상품 있음?", "products, farms, harvest_slots 조회", "상품 목록 또는 상세"],
-      ["C-002", "상품 목록", "/products", "input", "필터·정렬 선택", "예약 가능 상품 조회", "OPEN 슬롯 있음?", "products, farms, harvest_slots 조회", "상품 상세"],
-      ["C-003", "상품 상세", "/products/{productId}", "input", "슬롯·수량 선택", "수량 검증", "예약 가능 kg 이하?", "products, farms, harvest_slots 조회", "로컬 예약함"],
-      ["C-004", "로컬 예약함", "/basket", "system", "수량 변경·삭제", "예약 후보 재계산", "예약 확인 진행?", "서버 저장 없음", "예약 확인"],
-      ["C-005", "회원가입", "/signup", "input", "이메일·비밀번호·연락처 입력", "입력값 검증", "중복·형식 통과?", "accounts, customer_profiles, email_verifications 생성", "이메일 인증"],
-      ["C-006", "이메일 인증", "/verify-email", "input", "인증 코드 입력", "코드 검증", "유효한 코드?", "email_verifications 확인, accounts 갱신", "로그인 또는 이전 화면"],
-      ["C-007", "로그인", "/login", "input", "이메일·비밀번호 입력", "인증 요청", "계정 일치?", "accounts 조회", "이전 화면 또는 홈"],
-      ["C-008", "예약 확인", "/reservation/confirm", "process", "예약 후보 확인", "서버 예약 생성", "슬롯 수량 충분?", "reservations, reservation_items 생성 / harvest_slots 잠금", "주문서 작성"],
-      ["C-009", "주문서 작성", "/checkout/{reservationId}", "input", "배송 정보 입력", "예약 상태 검증", "RESERVED·만료 전?", "orders, order_items 생성", "Mock 결제"],
-      ["C-010", "Mock 결제", "/payment/{orderId}", "process", "결제 버튼 클릭", "결제 승인 처리", "승인 성공?", "payments, orders, procurements 생성 / harvest_slots 갱신", "주문 완료"],
-      ["C-011", "주문 완료", "/orders/complete/{orderId}", "input", "결과 화면 진입", "주문 결과 조회", "결제 완료 주문?", "orders, payments, procurements 조회", "주문 상세"],
-      ["C-012", "마이페이지 주문 목록", "/me/orders", "input", "내 주문 탭 진입", "주문 목록 조회", "주문 있음?", "orders, reservations, payments, shipments 조회", "주문 상세"],
-      ["C-013", "주문 상세", "/me/orders/{orderId}", "input", "상태 타임라인 확인", "상세 데이터 조회", "배송 완료?", "orders, order_items, payments, procurements, shipments 조회", "반품 신청 또는 목록"],
-      ["C-014", "반품 신청", "/me/orders/{orderId}/return", "danger", "사유·증빙 입력", "반품 요청 등록", "배송 완료 주문?", "return_requests 생성 / orders 상태 갱신", "주문 상세"]
-    ];
-
-    const ownerFlows = [
-      ["O-001", "로그인", "/owner/login", "input", "이메일·비밀번호 입력", "점주 인증 요청", "점주 계정?", "accounts, owner_profiles 조회", "대시보드"],
-      ["O-002", "대시보드", "/owner/dashboard", "input", "화면 진입", "처리 업무 집계", "처리 건 있음?", "harvest_slots, procurements, inspections, shipments, returns 조회", "업무 상세 화면"],
-      ["O-003", "농장 관리", "/owner/farm", "input", "농장 정보 입력", "저장 전 검증", "필수값 통과?", "farms 조회·갱신", "농장 관리"],
-      ["O-004", "상품 관리", "/owner/products", "input", "상품 정보 입력", "등록·수정 요청", "필수값 통과?", "products 조회·생성·갱신", "상품 관리"],
-      ["O-005", "ML 예측", "/owner/ml/predictions", "input", "환경값·재배 정보 입력", "예측 실행", "예측 가능 데이터?", "ml_predictions 생성·조회", "수확 슬롯 확정"],
-      ["O-006", "수확 슬롯 확정", "/owner/harvest-slots", "input", "기간·수량·가격 입력", "슬롯 오픈 저장", "예약 가능 kg 유효?", "harvest_slots 생성·갱신 / ml_predictions 참조", "상품 판매 상태 노출"],
-      ["O-007", "예약·주문 현황", "/owner/orders", "input", "상태 필터 선택", "예약·주문 조회", "대상 건 있음?", "reservations, reservation_items, orders, order_items 조회", "발주 목록 또는 주문 상세"],
-      ["O-008", "발주 목록", "/owner/procurements", "input", "발주 탭 진입", "발주 목록 조회", "REQUESTED 있음?", "procurements, procurement_items 조회", "발주 상세"],
-      ["O-009", "발주 상세 및 결정", "/owner/procurements/{id}", "input", "승인 kg·메모 입력", "발주 결정 저장", "승인 가능 수량?", "procurements, procurement_items, orders, order_items 갱신", "신선도 검사"],
-      ["O-010", "신선도 검사", "/owner/quality-inspections", "input", "이미지 촬영·등급 확인", "검사 결과 저장", "최종 판정 PASS?", "quality_inspections, procurement_items 생성·갱신", "배송 관리"],
-      ["O-011", "배송 관리", "/owner/shipments", "input", "택배사·송장 입력", "배송 정보 저장", "송장 정보 유효?", "shipments 생성·상태 갱신 / orders 갱신", "예약·주문 현황"],
-      ["O-012", "반품·환불 관리", "/owner/returns", "danger", "승인·거절 입력", "환불 결정 처리", "환불 승인?", "return_requests, refunds, payments, orders 갱신", "반품·환불 관리"],
-      ["O-013", "내 정보", "/owner/profile", "input", "점주 정보 수정", "프로필 저장", "필수값 통과?", "owner_profiles, accounts 조회·갱신", "내 정보"]
-    ];
-
-    const statusFlows = [
-      ["S-001", "예약 생성 트랜잭션", "RESERVED", "process", "예약 확인 요청", "슬롯 행 잠금", "available_kg 충분?", "reservations, reservation_items 생성 / harvest_slots.reserved_kg 증가", "예약 만료 타이머"],
-      ["S-002", "주문 생성", "PAYMENT_PENDING", "input", "배송 정보 제출", "예약 상태 확인", "RESERVED·만료 전?", "orders, order_items 생성 / reservations ORDERED", "결제 대기"],
-      ["S-003", "결제 승인", "PAID", "process", "Mock 결제 승인", "주문·결제 반영", "승인 성공?", "payments 생성·갱신 / orders PAID / procurements 생성", "발주 요청"],
-      ["S-004", "발주 결정", "PROCUREMENT_*", "input", "점주 승인·거절 입력", "발주 상태 갱신", "전량 승인?", "procurements, procurement_items, orders 갱신", "신선도 검사 또는 취소"],
-      ["S-005", "배송 처리", "SHIPPED/DELIVERED", "input", "송장·배송 상태 입력", "배송 상태 저장", "배송 완료?", "shipments, orders 갱신", "주문 상세 노출"],
-      ["S-006", "반품·환불 처리", "RETURN/REFUND", "danger", "반품 결정 입력", "환불 요청 처리", "승인?", "return_requests, refunds, payments, orders 갱신", "REFUNDED 또는 REJECTED"]
-    ];
-
     function esc(value) {
       return String(value).replace(/[&<>"']/g, char => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
       })[char]);
-    }
-
-    function wrapText(text, limit) {
-      const value = String(text);
-      const result = [];
-      let line = "";
-      for (const token of value.split(" ")) {
-        if (token.length > limit) {
-          if (line) {
-            result.push(line);
-            line = "";
-          }
-          for (let i = 0; i < token.length; i += limit) {
-            result.push(token.slice(i, i + limit));
-          }
-          continue;
-        }
-        const next = line ? `${line} ${token}` : token;
-        if (next.length > limit && line) {
-          result.push(line);
-          line = token;
-        } else {
-          line = next;
-        }
-      }
-      if (line) result.push(line);
-      return result.slice(0, 3);
-    }
-
-    function textLines(x, y, text, cls = "node-text", limit = 12, gap = 17) {
-      const lines = wrapText(text, limit);
-      const offset = (lines.length - 1) * gap / 2;
-      return lines.map((line, index) => `<text x="${x}" y="${y - offset + index * gap}" class="${cls}">${esc(line)}</text>`).join("");
-    }
-
-    function db(x, y, text) {
-      const lines = wrapText(text, 13);
-      return `
-        <g>
-          <rect x="${x - 48}" y="${y - 28}" width="96" height="76" class="db-body"/>
-          <ellipse cx="${x}" cy="${y - 28}" rx="48" ry="13" class="db-top"/>
-          <ellipse cx="${x}" cy="${y + 48}" rx="48" ry="13" class="db-body"/>
-          ${lines.map((line, index) => `<text x="${x}" y="${y + 2 + index * 15}" class="node-small">${esc(line)}</text>`).join("")}
-        </g>`;
-    }
-
-    function node(type, x, y, title, detail) {
-      const safeTitle = textLines(x, y - 4, title, "node-text", 10);
-      const safeDetail = detail ? textLines(x, y + 25, detail, "node-small", 14, 14) : "";
-      if (type === "terminator") {
-        return `<rect x="${x - 78}" y="${y - 34}" width="156" height="68" rx="34" class="terminator"/>${safeTitle}${safeDetail}`;
-      }
-      if (type === "input") {
-        return `<polygon points="${x - 82},${y - 38} ${x + 92},${y - 38} ${x + 72},${y + 38} ${x - 102},${y + 38}" class="input"/>${safeTitle}${safeDetail}`;
-      }
-      if (type === "decision") {
-        return `<polygon points="${x},${y - 58} ${x + 92},${y} ${x},${y + 58} ${x - 92},${y}" class="decision"/>${safeTitle}${safeDetail}`;
-      }
-      if (type === "system") {
-        return `<rect x="${x - 86}" y="${y - 38}" width="172" height="76" class="system"/>${safeTitle}${safeDetail}`;
-      }
-      if (type === "danger") {
-        return `<rect x="${x - 86}" y="${y - 38}" width="172" height="76" class="danger"/>${safeTitle}${safeDetail}`;
-      }
-      return `<rect x="${x - 86}" y="${y - 38}" width="172" height="76" class="process"/>${safeTitle}${safeDetail}`;
-    }
-
-    function flowSvg(item) {
-      const [id, name, path, kind, entry, action, decision, dbText, next] = item;
-      const markerId = `arrow-${id}`;
-      const markerSoftId = `arrow-soft-${id}`;
-      return `
-        <svg class="flow" viewBox="0 0 760 336" role="img" aria-label="${esc(id)} ${esc(name)} 화면 플로우">
-          <defs>
-            <marker id="${markerId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#111815"/></marker>
-            <marker id="${markerSoftId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#606b64"/></marker>
-          </defs>
-          <style>
-            #${id} .edge { marker-end: url(#${markerId}); }
-            #${id} .edge-soft { marker-end: url(#${markerSoftId}); }
-          </style>
-          <g id="${id}">
-            <path d="M158,72 H170" class="edge"/>
-            <path d="M364,72 H368" class="edge"/>
-            <path d="M552,72 H592" class="edge"/>
-            <path d="M640,133 V196 H548" class="edge"/>
-            <path d="M460,130 V160 H210 V198" class="edge-soft"/>
-            <path d="M374,235 H288" class="edge"/>
-            <text x="560" y="55" class="label">Y</text>
-            <text x="472" y="154" class="label">N</text>
-            ${node("terminator", 80, 72, "시작", name)}
-            ${node("input", 272, 72, "입출력", entry)}
-            ${node("decision", 460, 72, decision, "")}
-            ${db(640, 72, dbText)}
-            ${node("process", 460, 235, "처리", action)}
-            ${node("terminator", 210, 235, "종료", next)}
-          </g>
-        </svg>`;
-    }
-
-    function renderGrid(targetId, flows) {
-      const grid = document.getElementById(targetId);
-      grid.innerHTML = flows.map(item => `
-        <article class="flow-panel">
-          <div class="flow-title">
-            <span class="flow-id">${esc(item[0])}</span>
-            <h3 class="flow-name">${esc(item[1])}</h3>
-            <span class="flow-path">${esc(item[2])}</span>
-          </div>
-          ${flowSvg(item)}
-        </article>
-      `).join("");
     }
 
     function renderDiagramExports() {
@@ -604,49 +328,7 @@
       }).join("");
     }
 
-    function renderLegend() {
-      document.querySelectorAll(".legend").forEach(svg => {
-        svg.innerHTML = `
-          <rect x="18" y="18" width="76" height="34" rx="17" class="terminator"/>
-          <text x="118" y="39" class="legend-text">시작/종료</text>
-          <rect x="24" y="72" width="66" height="34" class="process"/>
-          <text x="118" y="94" class="legend-text">처리</text>
-          <polygon points="218,17 248,40 218,63 188,40" class="decision"/>
-          <text x="280" y="44" class="legend-text">판단</text>
-          <polygon points="184,76 258,76 246,112 172,112" class="input"/>
-          <text x="280" y="99" class="legend-text">입력</text>
-          <g>
-            <rect x="342" y="32" width="58" height="58" class="db-body"/>
-            <ellipse cx="371" cy="32" rx="29" ry="11" class="db-top"/>
-            <ellipse cx="371" cy="90" rx="29" ry="11" class="db-body"/>
-          </g>
-          <text x="371" y="112" text-anchor="middle" class="legend-text">DB 사용</text>
-        `;
-      });
-    }
-
-    function activate(id) {
-      if (!document.getElementById(id)) id = "customer";
-      document.querySelectorAll(".sheet").forEach(item => item.classList.remove("active"));
-      document.querySelectorAll(".tabs button").forEach(item => item.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-      document.querySelector(`[data-target="${id}"]`).classList.add("active");
-      requestAnimationFrame(() => window.scrollTo(0, 0));
-    }
-
-    renderLegend();
     renderDiagramExports();
-    renderGrid("customerGrid", customerFlows);
-    renderGrid("ownerGrid", ownerFlows);
-    renderGrid("statusGrid", statusFlows);
-
-    document.querySelectorAll(".tabs button").forEach(button => {
-      button.addEventListener("click", () => {
-        activate(button.dataset.target);
-        history.replaceState(null, "", `#${button.dataset.target}`);
-      });
-    });
-    activate(location.hash.replace("#", "") || "exports");
   </script>
 </body>
 </html>
