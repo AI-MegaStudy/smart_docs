@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2200" viewBox="0 0 1600 2200">
+  <defs>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f2933"/>
+    </marker>
+    <style>
+      .page { fill: #fbfaf7; }
+      .title { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 42px; font-weight: 800; fill: #16211f; }
+      .subtitle { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 21px; font-weight: 600; fill: #53615d; }
+      .code { font-family: Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #1f5a42; }
+      .lane { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 18px; font-weight: 800; fill: #ffffff; text-anchor: middle; }
+      .node-title { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #111817; text-anchor: middle; }
+      .node-sub { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 17px; font-weight: 700; fill: #53615d; text-anchor: middle; }
+      .edge { fill: none; stroke: #1f2933; stroke-width: 4; }
+      .edge-soft { fill: none; stroke: #6f7b76; stroke-width: 3; }
+      .arrowhead { fill: #1f2933; }
+      .arrowhead-soft { fill: #6f7b76; }
+      .yesno { font-family: Arial, sans-serif; font-size: 22px; font-weight: 800; fill: #111817; }
+    </style>
+  </defs>
+
+  <rect class="page" x="0" y="0" width="1600" height="2200"/>
+  <rect x="42" y="42" width="1516" height="2116" fill="none" stroke="#cfd8d2" stroke-width="2"/>
+
+  <text class="code" x="96" y="110">01-1</text>
+  <text class="title" x="170" y="112">슬롯 생성부터 예약 생성까지</text>
+  <text class="subtitle" x="96" y="160">점주가 확정한 수확 슬롯이 고객 예약으로 전환되는 첫 번째 흐름</text>
+
+  <g id="lanes">
+    <rect x="112" y="278" width="126" height="42" rx="21" fill="#2f6f53"/>
+    <text class="lane" x="175" y="306">점주</text>
+    <rect x="112" y="542" width="126" height="42" rx="21" fill="#596d82"/>
+    <text class="lane" x="175" y="570">ML</text>
+    <rect x="112" y="1084" width="126" height="42" rx="21" fill="#7a6044"/>
+    <text class="lane" x="175" y="1112">시스템</text>
+    <rect x="112" y="1368" width="126" height="42" rx="21" fill="#496fae"/>
+    <text class="lane" x="175" y="1396">고객</text>
+  </g>
+
+  <g id="flow">
+    <rect x="540" y="235" width="520" height="116" rx="58" fill="#d9ebff" stroke="#4d7fc7" stroke-width="4"/>
+    <text class="node-title" x="800" y="286">시작</text>
+    <text class="node-sub" x="800" y="322">판매 준비 시작</text>
+
+    <path class="edge" d="M800 351 L800 418"/>
+    <rect x="540" y="418" width="520" height="132" rx="10" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="468">농장·상품 등록</text>
+    <text class="node-sub" x="800" y="505">상품, 포장 단위, 가격</text>
+    <text class="node-sub" x="800" y="535">배송·반품 정책 관리</text>
+
+    <path class="edge" d="M800 550 L800 616"/>
+    <rect x="540" y="616" width="520" height="132" rx="10" fill="#eef2f6" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="666">수확 예측 실행</text>
+    <text class="node-sub" x="800" y="703">예상 수확량과 예약 가능 범위</text>
+    <text class="node-sub" x="800" y="733">추천가를 점주에게 제공</text>
+
+    <path class="edge" d="M800 748 L800 820"/>
+    <polygon points="800,820 1130,970 800,1120 470,970" fill="#fffdf9" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="934">점주가 슬롯을</text>
+    <text class="node-title" x="800" y="974">확정했는가?</text>
+    <text class="node-sub" x="800" y="1024">기간, 수량, 가격 확정</text>
+
+    <path class="edge-soft" d="M470 970 L392 970"/>
+    <text class="yesno" x="420" y="948">N</text>
+    <rect x="124" y="900" width="268" height="140" rx="10" fill="#fff6e6" stroke="#9b6b28" stroke-width="3"/>
+    <text class="node-title" x="258" y="950">초안 보완</text>
+    <text class="node-sub" x="258" y="988">예측값 또는 상품 정보를</text>
+    <text class="node-sub" x="258" y="1018">다시 확인</text>
+
+    <path class="edge" d="M800 1120 L800 1176"/>
+    <text class="yesno" x="878" y="1168">Y</text>
+    <path d="M610 1228 C610 1194 990 1194 990 1228 L990 1368 C990 1402 610 1402 610 1368 Z" fill="#e4f7ed" stroke="#247a55" stroke-width="4"/>
+    <ellipse cx="800" cy="1228" rx="190" ry="46" fill="#f2fff8" stroke="#247a55" stroke-width="4"/>
+    <text class="node-title" x="800" y="1318">수확 슬롯 OPEN</text>
+    <text class="node-sub" x="800" y="1360">고객에게 확정값 노출</text>
+
+    <path class="edge" d="M800 1406 L800 1478"/>
+    <polygon points="626,1478 1130,1478 974,1618 470,1618" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="1532">상품 탐색 및</text>
+    <text class="node-title" x="800" y="1572">수확 슬롯 선택</text>
+    <text class="node-sub" x="800" y="1608">상품 상세에서 수량 선택</text>
+
+    <path class="edge" d="M800 1618 L800 1690"/>
+    <polygon points="800,1690 1130,1840 800,1990 470,1840" fill="#fffdf9" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="1800">예약 가능</text>
+    <text class="node-title" x="800" y="1840">수량이 충분한가?</text>
+    <text class="node-sub" x="800" y="1888">available_kg 검증</text>
+
+    <path class="edge-soft" d="M470 1840 L392 1840"/>
+    <text class="yesno" x="420" y="1818">N</text>
+    <rect x="124" y="1770" width="268" height="140" rx="10" fill="#fff0ef" stroke="#b64b4b" stroke-width="3"/>
+    <text class="node-title" x="258" y="1820">수량 변경 안내</text>
+    <text class="node-sub" x="258" y="1858">다른 슬롯 또는 수량으로</text>
+    <text class="node-sub" x="258" y="1888">다시 선택</text>
+
+    <path class="edge" d="M800 1990 L800 2062"/>
+    <text class="yesno" x="858" y="2026">Y</text>
+    <rect x="540" y="2062" width="520" height="116" rx="58" fill="#dff5e9" stroke="#2f7c59" stroke-width="4"/>
+    <text class="node-title" x="800" y="2110">예약 생성 완료</text>
+    <text class="node-sub" x="800" y="2148">다음 흐름: 주문·결제</text>
+
+    <polygon class="arrowhead" points="800,418 784,386 816,386"/>
+    <polygon class="arrowhead" points="800,616 784,584 816,584"/>
+    <polygon class="arrowhead" points="800,820 784,788 816,788"/>
+    <polygon class="arrowhead-soft" points="392,970 424,954 424,986"/>
+    <polygon class="arrowhead" points="800,1176 786,1148 814,1148"/>
+    <polygon class="arrowhead" points="800,1478 784,1446 816,1446"/>
+    <polygon class="arrowhead" points="800,1690 784,1658 816,1658"/>
+    <polygon class="arrowhead-soft" points="392,1840 424,1824 424,1856"/>
+    <polygon class="arrowhead" points="800,2062 784,2030 816,2030"/>
+  </g>
+</svg>

@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2460" viewBox="0 0 1600 2460">
+  <defs>
+    <style>
+      .page { fill: #fbfaf7; }
+      .title { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 42px; font-weight: 800; fill: #16211f; }
+      .subtitle { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 21px; font-weight: 600; fill: #53615d; }
+      .code { font-family: Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #1f5a42; }
+      .lane { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 18px; font-weight: 800; fill: #ffffff; text-anchor: middle; }
+      .node-title { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #111817; text-anchor: middle; }
+      .node-sub { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 17px; font-weight: 700; fill: #53615d; text-anchor: middle; }
+      .edge { fill: none; stroke: #1f2933; stroke-width: 4; }
+      .edge-soft { fill: none; stroke: #6f7b76; stroke-width: 3; }
+      .arrowhead { fill: #1f2933; }
+      .arrowhead-soft { fill: #6f7b76; }
+      .yesno { font-family: Arial, sans-serif; font-size: 22px; font-weight: 800; fill: #111817; }
+    </style>
+  </defs>
+
+  <rect class="page" x="0" y="0" width="1600" height="2460"/>
+  <rect x="42" y="42" width="1516" height="2376" fill="none" stroke="#cfd8d2" stroke-width="2"/>
+
+  <text class="code" x="96" y="110">05</text>
+  <text class="title" x="158" y="112">점주 출고 처리 플로우</text>
+  <text class="subtitle" x="96" y="160">발주 요청을 점주가 승인하고, 신선도 검사 후 배송 등록까지 처리하는 흐름</text>
+
+  <g id="lanes">
+    <rect x="112" y="278" width="126" height="42" rx="21" fill="#2f6f53"/>
+    <text class="lane" x="175" y="306">점주</text>
+    <rect x="112" y="1278" width="126" height="42" rx="21" fill="#7a6044"/>
+    <text class="lane" x="175" y="1306">서버</text>
+    <rect x="112" y="1518" width="126" height="42" rx="21" fill="#596d82"/>
+    <text class="lane" x="175" y="1546">DL</text>
+    <rect x="112" y="2266" width="126" height="42" rx="21" fill="#496fae"/>
+    <text class="lane" x="175" y="2294">고객</text>
+  </g>
+
+  <g id="flow">
+    <rect x="540" y="235" width="520" height="116" rx="58" fill="#d9ebff" stroke="#4d7fc7" stroke-width="4"/>
+    <text class="node-title" x="800" y="286">시작</text>
+    <text class="node-sub" x="800" y="322">점주 발주 확인 대기</text>
+
+    <path class="edge" d="M800 351 L800 422"/>
+    <rect x="540" y="422" width="520" height="132" rx="10" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="472">발주 목록 확인</text>
+    <text class="node-sub" x="800" y="509">REQUESTED 발주 조회</text>
+    <text class="node-sub" x="800" y="539">주문, 고객, 요청 수량 확인</text>
+
+    <path class="edge" d="M800 554 L800 626"/>
+    <polygon points="626,626 1130,626 974,766 470,766" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="682">발주 상세 검토</text>
+    <text class="node-sub" x="800" y="720">품목별 승인 kg 입력</text>
+    <text class="node-sub" x="800" y="750">거절 사유 또는 메모</text>
+
+    <path class="edge" d="M800 766 L800 838"/>
+    <polygon points="800,838 1130,988 800,1138 470,988" fill="#fffdf9" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="952">발주를</text>
+    <text class="node-title" x="800" y="992">승인할 것인가?</text>
+    <text class="node-sub" x="800" y="1040">전량 또는 부분 승인 가능</text>
+
+    <path class="edge-soft" d="M470 988 L392 988"/>
+    <text class="yesno" x="420" y="966">N</text>
+    <rect x="124" y="918" width="268" height="140" rx="10" fill="#fff0ef" stroke="#b64b4b" stroke-width="3"/>
+    <text class="node-title" x="258" y="968">발주 거절</text>
+    <text class="node-sub" x="258" y="1006">주문 취소 또는</text>
+    <text class="node-sub" x="258" y="1036">환불 흐름으로 이동</text>
+
+    <path class="edge" d="M800 1138 L800 1210"/>
+    <text class="yesno" x="858" y="1174">Y</text>
+    <path d="M610 1262 C610 1228 990 1228 990 1262 L990 1402 C990 1436 610 1436 610 1402 Z" fill="#e4f7ed" stroke="#247a55" stroke-width="4"/>
+    <ellipse cx="800" cy="1262" rx="190" ry="46" fill="#f2fff8" stroke="#247a55" stroke-width="4"/>
+    <text class="node-title" x="800" y="1352">발주 결정 저장</text>
+    <text class="node-sub" x="800" y="1394">procurements 갱신</text>
+
+    <path class="edge" d="M800 1440 L800 1512"/>
+    <rect x="540" y="1512" width="520" height="132" rx="10" fill="#eef2f6" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="1562">신선도 검사</text>
+    <text class="node-sub" x="800" y="1599">과일 이미지 촬영</text>
+    <text class="node-sub" x="800" y="1629">DL 모델 판정 참고</text>
+
+    <path class="edge" d="M800 1644 L800 1716"/>
+    <polygon points="800,1716 1130,1866 800,2016 470,1866" fill="#fffdf9" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="1830">점주 최종 판정이</text>
+    <text class="node-title" x="800" y="1870">PASS인가?</text>
+    <text class="node-sub" x="800" y="1918">모델 결과와 점주 판정 분리</text>
+
+    <path class="edge-soft" d="M470 1866 L392 1866"/>
+    <text class="yesno" x="420" y="1844">N</text>
+    <rect x="124" y="1796" width="268" height="140" rx="10" fill="#fff6e6" stroke="#9b6b28" stroke-width="3"/>
+    <text class="node-title" x="258" y="1846">출고 보류</text>
+    <text class="node-sub" x="258" y="1884">품질 HOLD 기록</text>
+    <text class="node-sub" x="258" y="1914">재검사 또는 수량 조정</text>
+
+    <path class="edge" d="M800 2016 L800 2088"/>
+    <text class="yesno" x="858" y="2052">Y</text>
+    <rect x="540" y="2088" width="520" height="132" rx="10" fill="#e9f6ff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="2138">배송 등록</text>
+    <text class="node-sub" x="800" y="2175">택배사와 송장 번호 입력</text>
+    <text class="node-sub" x="800" y="2205">READY_TO_SHIP 상태</text>
+
+    <path class="edge" d="M1060 2154 L1210 2154"/>
+    <path d="M1210 2084 C1210 2050 1490 2050 1490 2084 L1490 2224 C1490 2258 1210 2258 1210 2224 Z" fill="#e4f7ed" stroke="#247a55" stroke-width="4"/>
+    <ellipse cx="1350" cy="2084" rx="140" ry="42" fill="#f2fff8" stroke="#247a55" stroke-width="4"/>
+    <text class="node-title" x="1350" y="2166">배송 정보 저장</text>
+    <text class="node-sub" x="1350" y="2204">shipments 기록</text>
+
+    <path class="edge" d="M800 2220 L800 2284"/>
+    <rect x="540" y="2284" width="520" height="116" rx="58" fill="#dff5e9" stroke="#2f7c59" stroke-width="4"/>
+    <text class="node-title" x="800" y="2334">종료</text>
+    <text class="node-sub" x="800" y="2372">고객 주문 상세에 배송 상태 노출</text>
+
+    <polygon class="arrowhead" points="800,422 784,390 816,390"/>
+    <polygon class="arrowhead" points="800,626 784,594 816,594"/>
+    <polygon class="arrowhead" points="800,838 784,806 816,806"/>
+    <polygon class="arrowhead-soft" points="392,988 424,972 424,1004"/>
+    <polygon class="arrowhead" points="800,1210 784,1178 816,1178"/>
+    <polygon class="arrowhead" points="800,1512 784,1480 816,1480"/>
+    <polygon class="arrowhead" points="800,1716 784,1684 816,1684"/>
+    <polygon class="arrowhead-soft" points="392,1866 424,1850 424,1882"/>
+    <polygon class="arrowhead" points="800,2088 784,2056 816,2056"/>
+    <polygon class="arrowhead" points="1210,2154 1178,2138 1178,2170"/>
+    <polygon class="arrowhead" points="800,2284 784,2252 816,2252"/>
+  </g>
+</svg>

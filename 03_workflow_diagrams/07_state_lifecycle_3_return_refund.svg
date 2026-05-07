@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1900" viewBox="0 0 1600 1900">
+  <defs>
+    <style>
+      .page { fill: #fbfaf7; }
+      .title { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 42px; font-weight: 800; fill: #16211f; }
+      .subtitle { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 21px; font-weight: 600; fill: #53615d; }
+      .code { font-family: Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #1f5a42; }
+      .lane { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 18px; font-weight: 800; fill: #ffffff; text-anchor: middle; }
+      .node-title { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #111817; text-anchor: middle; }
+      .node-sub { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 17px; font-weight: 700; fill: #53615d; text-anchor: middle; }
+      .state-code { font-family: Arial, sans-serif; font-size: 17px; font-weight: 800; fill: #49615b; text-anchor: middle; }
+      .edge { fill: none; stroke: #1f2933; stroke-width: 4; }
+      .edge-soft { fill: none; stroke: #6f7b76; stroke-width: 3; }
+      .arrowhead { fill: #1f2933; }
+      .arrowhead-soft { fill: #6f7b76; }
+      .yesno { font-family: Arial, sans-serif; font-size: 22px; font-weight: 800; fill: #111817; }
+    </style>
+  </defs>
+
+  <rect class="page" x="0" y="0" width="1600" height="1900"/>
+  <rect x="42" y="42" width="1516" height="1816" fill="none" stroke="#cfd8d2" stroke-width="2"/>
+
+  <text class="code" x="96" y="110">07-3</text>
+  <text class="title" x="170" y="112">반품·환불 상태 생명주기</text>
+  <text class="subtitle" x="96" y="160">배송 완료 이후 반품 요청, 점주 결정, 환불 완료로 이어지는 상태 전이</text>
+
+  <g id="lanes">
+    <rect x="112" y="278" width="126" height="42" rx="21" fill="#496fae"/>
+    <text class="lane" x="175" y="306">배송</text>
+    <rect x="112" y="760" width="126" height="42" rx="21" fill="#7a6044"/>
+    <text class="lane" x="175" y="788">반품</text>
+    <rect x="112" y="1510" width="126" height="42" rx="21" fill="#7a6044"/>
+    <text class="lane" x="175" y="1538">환불</text>
+  </g>
+
+  <g id="flow">
+    <rect x="540" y="235" width="520" height="116" rx="58" fill="#d9ebff" stroke="#4d7fc7" stroke-width="4"/>
+    <text class="node-title" x="800" y="286">시작</text>
+    <text class="node-sub" x="800" y="322">DELIVERED</text>
+
+    <path class="edge" d="M800 351 L800 422"/>
+    <polygon points="800,422 1130,572 800,722 470,572" fill="#fffdf9" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="536">반품 요청이</text>
+    <text class="node-title" x="800" y="576">있는가?</text>
+    <text class="node-sub" x="800" y="624">배송 완료 후 가능</text>
+
+    <path class="edge-soft" d="M1130 572 L1272 572"/>
+    <text class="yesno" x="1178" y="550">N</text>
+    <rect x="1272" y="514" width="250" height="116" rx="58" fill="#d9ebff" stroke="#4d7fc7" stroke-width="4"/>
+    <text class="node-title" x="1397" y="562">종료</text>
+    <text class="node-sub" x="1397" y="600">거래 완료</text>
+
+    <path class="edge" d="M800 722 L800 794"/>
+    <text class="yesno" x="858" y="758">Y</text>
+    <rect x="540" y="794" width="520" height="116" rx="10" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="840">반품 요청 접수</text>
+    <text class="state-code" x="800" y="878">RETURN_REQUESTED</text>
+
+    <path class="edge" d="M800 910 L800 982"/>
+    <polygon points="800,982 1130,1132 800,1282 470,1132" fill="#fffdf9" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="1096">반품이</text>
+    <text class="node-title" x="800" y="1136">승인되었는가?</text>
+    <text class="node-sub" x="800" y="1184">점주 결정 기준</text>
+
+    <path class="edge-soft" d="M470 1132 L392 1132"/>
+    <text class="yesno" x="420" y="1110">N</text>
+    <rect x="124" y="1062" width="268" height="140" rx="10" fill="#fff6e6" stroke="#9b6b28" stroke-width="3"/>
+    <text class="node-title" x="258" y="1112">반품 거절</text>
+    <text class="state-code" x="258" y="1150">RETURN_REJECTED</text>
+    <text class="node-sub" x="258" y="1180">거절 사유 노출</text>
+
+    <path class="edge" d="M800 1282 L800 1354"/>
+    <text class="yesno" x="858" y="1318">Y</text>
+    <rect x="540" y="1354" width="520" height="116" rx="10" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="1400">환불 처리</text>
+    <text class="state-code" x="800" y="1438">refunds.REQUESTED</text>
+
+    <path class="edge" d="M800 1470 L800 1542"/>
+    <rect x="540" y="1542" width="520" height="116" rx="58" fill="#dff5e9" stroke="#2f7c59" stroke-width="4"/>
+    <text class="node-title" x="800" y="1592">환불 완료</text>
+    <text class="state-code" x="800" y="1630">REFUNDED / payments.REFUNDED</text>
+
+    <polygon class="arrowhead" points="800,422 784,390 816,390"/>
+    <polygon class="arrowhead-soft" points="1272,572 1240,556 1240,588"/>
+    <polygon class="arrowhead" points="800,794 784,762 816,762"/>
+    <polygon class="arrowhead" points="800,982 784,950 816,950"/>
+    <polygon class="arrowhead-soft" points="392,1132 424,1116 424,1148"/>
+    <polygon class="arrowhead" points="800,1354 784,1322 816,1322"/>
+    <polygon class="arrowhead" points="800,1542 784,1510 816,1510"/>
+  </g>
+</svg>

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2360" viewBox="0 0 1600 2360">
+  <defs>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f2933"/>
+    </marker>
+    <style>
+      .page { fill: #fbfaf7; }
+      .title { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 42px; font-weight: 800; fill: #16211f; }
+      .subtitle { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 21px; font-weight: 600; fill: #53615d; }
+      .code { font-family: Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #1f5a42; }
+      .lane { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 18px; font-weight: 800; fill: #ffffff; text-anchor: middle; }
+      .node-title { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #111817; text-anchor: middle; }
+      .node-sub { font-family: "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; font-size: 17px; font-weight: 700; fill: #53615d; text-anchor: middle; }
+      .edge { fill: none; stroke: #1f2933; stroke-width: 4; }
+      .edge-soft { fill: none; stroke: #6f7b76; stroke-width: 3; }
+      .arrowhead { fill: #1f2933; }
+      .arrowhead-soft { fill: #6f7b76; }
+      .yesno { font-family: Arial, sans-serif; font-size: 22px; font-weight: 800; fill: #111817; }
+    </style>
+  </defs>
+
+  <rect class="page" x="0" y="0" width="1600" height="2360"/>
+  <rect x="42" y="42" width="1516" height="2276" fill="none" stroke="#cfd8d2" stroke-width="2"/>
+
+  <text class="code" x="96" y="110">02</text>
+  <text class="title" x="158" y="112">점주 공급 준비 및 수확 슬롯 확정 플로우</text>
+  <text class="subtitle" x="96" y="160">ML 예측은 참고 정보이고, 고객에게 노출되는 기간·수량·가격은 점주가 최종 확정한다</text>
+
+  <g id="lanes">
+    <rect x="112" y="272" width="126" height="42" rx="21" fill="#2f6f53"/>
+    <text class="lane" x="175" y="300">점주</text>
+    <rect x="112" y="804" width="126" height="42" rx="21" fill="#596d82"/>
+    <text class="lane" x="175" y="832">ML</text>
+    <rect x="112" y="1498" width="126" height="42" rx="21" fill="#7a6044"/>
+    <text class="lane" x="175" y="1526">시스템</text>
+    <rect x="112" y="2016" width="126" height="42" rx="21" fill="#496fae"/>
+    <text class="lane" x="175" y="2044">고객</text>
+  </g>
+
+  <g id="flow">
+    <rect x="540" y="228" width="520" height="116" rx="58" fill="#d9ebff" stroke="#4d7fc7" stroke-width="4"/>
+    <text class="node-title" x="800" y="279">시작</text>
+    <text class="node-sub" x="800" y="315">점주 앱 로그인</text>
+
+    <path class="edge" d="M800 344 L800 416"/>
+    <polygon points="626,416 1130,416 974,556 470,556" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="472">농장 정보 입력</text>
+    <text class="node-sub" x="800" y="510">농장명, 지역, 주소</text>
+    <text class="node-sub" x="800" y="540">배송·반품 정책</text>
+
+    <path class="edge" d="M800 556 L800 628"/>
+    <polygon points="626,628 1130,628 974,768 470,768" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="684">상품 정보 입력</text>
+    <text class="node-sub" x="800" y="722">상품명, 품종, 포장 단위</text>
+    <text class="node-sub" x="800" y="752">기본 가격, 이미지</text>
+
+    <path class="edge" d="M800 768 L800 840"/>
+    <polygon points="800,840 1130,990 800,1140 470,990" fill="#fffdf9" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="954">예측 실행에 필요한</text>
+    <text class="node-title" x="800" y="994">데이터가 충분한가?</text>
+    <text class="node-sub" x="800" y="1042">환경값, 과거 수확량, 재배 정보</text>
+
+    <path class="edge-soft" d="M470 990 L392 990"/>
+    <text class="yesno" x="420" y="968">N</text>
+    <rect x="124" y="920" width="268" height="140" rx="10" fill="#fff6e6" stroke="#9b6b28" stroke-width="3"/>
+    <text class="node-title" x="258" y="970">데이터 보완</text>
+    <text class="node-sub" x="258" y="1008">누락된 환경값 또는</text>
+    <text class="node-sub" x="258" y="1038">수확 이력 입력</text>
+
+    <path class="edge" d="M800 1140 L800 1212"/>
+    <text class="yesno" x="858" y="1176">Y</text>
+    <rect x="540" y="1212" width="520" height="132" rx="10" fill="#eef2f6" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="1262">ML 수확 예측 생성</text>
+    <text class="node-sub" x="800" y="1299">수확 예정 범위와 수확량</text>
+    <text class="node-sub" x="800" y="1329">예약 가능 범위와 추천가</text>
+
+    <path class="edge" d="M800 1344 L800 1404"/>
+    <path d="M610 1456 C610 1422 990 1422 990 1456 L990 1596 C990 1630 610 1630 610 1596 Z" fill="#e4f7ed" stroke="#247a55" stroke-width="4"/>
+    <ellipse cx="800" cy="1456" rx="190" ry="46" fill="#f2fff8" stroke="#247a55" stroke-width="4"/>
+    <text class="node-title" x="800" y="1546">예측 결과 저장</text>
+    <text class="node-sub" x="800" y="1588">ml_predictions 기록</text>
+
+    <path class="edge" d="M800 1634 L800 1706"/>
+    <polygon points="800,1706 1130,1856 800,2006 470,1856" fill="#fffdf9" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="1820">점주가 예측값을</text>
+    <text class="node-title" x="800" y="1860">채택할 것인가?</text>
+    <text class="node-sub" x="800" y="1908">자동 결정 아님</text>
+
+    <path class="edge-soft" d="M470 1856 L392 1856"/>
+    <text class="yesno" x="420" y="1834">N</text>
+    <rect x="124" y="1786" width="268" height="140" rx="10" fill="#fff6e6" stroke="#9b6b28" stroke-width="3"/>
+    <text class="node-title" x="258" y="1836">직접 조정</text>
+    <text class="node-sub" x="258" y="1874">수확 기간, 수량, 가격을</text>
+    <text class="node-sub" x="258" y="1904">점주가 수정</text>
+
+    <path class="edge" d="M800 2006 L800 2078"/>
+    <text class="yesno" x="858" y="2042">Y</text>
+    <polygon points="626,2078 1130,2078 974,2218 470,2218" fill="#ffffff" stroke="#202825" stroke-width="4"/>
+    <text class="node-title" x="800" y="2134">수확 슬롯 확정</text>
+    <text class="node-sub" x="800" y="2172">확정 기간, 예약 가능 kg</text>
+    <text class="node-sub" x="800" y="2202">판매가, 고객 고지 문구</text>
+
+    <path class="edge" d="M1130 2148 L1238 2148"/>
+    <path d="M1238 2078 C1238 2044 1478 2044 1478 2078 L1478 2218 C1478 2252 1238 2252 1238 2218 Z" fill="#e4f7ed" stroke="#247a55" stroke-width="4"/>
+    <ellipse cx="1358" cy="2078" rx="120" ry="38" fill="#f2fff8" stroke="#247a55" stroke-width="4"/>
+    <text class="node-title" x="1358" y="2158">슬롯 OPEN</text>
+    <text class="node-sub" x="1358" y="2194">고객 화면 노출</text>
+
+    <polygon class="arrowhead" points="800,416 784,384 816,384"/>
+    <polygon class="arrowhead" points="800,628 784,596 816,596"/>
+    <polygon class="arrowhead" points="800,840 784,808 816,808"/>
+    <polygon class="arrowhead-soft" points="392,990 424,974 424,1006"/>
+    <polygon class="arrowhead" points="800,1212 784,1180 816,1180"/>
+    <polygon class="arrowhead" points="800,1404 784,1372 816,1372"/>
+    <polygon class="arrowhead" points="800,1706 784,1674 816,1674"/>
+    <polygon class="arrowhead-soft" points="392,1856 424,1840 424,1872"/>
+    <polygon class="arrowhead" points="800,2078 784,2046 816,2046"/>
+    <polygon class="arrowhead" points="1238,2148 1206,2132 1206,2164"/>
+  </g>
+</svg>

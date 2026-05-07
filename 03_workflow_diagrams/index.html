@@ -45,7 +45,7 @@
       border-bottom: 1px solid #d7ded7;
     }
 
-    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3, h4, p { margin: 0; }
     h1 { font-size: 22px; line-height: 1.22; font-weight: 900; }
     .sub { margin-top: 4px; color: var(--muted); font-size: 13px; }
 
@@ -144,11 +144,122 @@
     .label { font-size: 13px; fill: #000; font-weight: 900; }
     .legend-text { font-size: 12px; fill: #111; }
 
+    .diagram-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .diagram-group-title {
+      margin-bottom: 12px;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .diagram-group-desc {
+      margin: -6px 0 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .diagram-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--panel);
+      border: 1px solid var(--panel-line);
+    }
+
+    .diagram-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid #edf1ec;
+    }
+
+    .diagram-id {
+      flex: 0 0 auto;
+      min-width: 52px;
+      color: var(--green);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .diagram-title {
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .diagram-desc {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .diagram-links {
+      display: flex;
+      gap: 8px;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    .diagram-links a {
+      display: inline-flex;
+      align-items: center;
+      height: 30px;
+      padding: 0 10px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      background: #f7f9f5;
+      border: 1px solid #cfd8d1;
+      border-radius: 999px;
+    }
+
+    .diagram-links a:hover,
+    .diagram-links a:focus-visible {
+      color: #ffffff;
+      background: var(--green);
+      border-color: var(--green);
+      outline: none;
+    }
+
+    .diagram-preview {
+      display: block;
+      width: 100%;
+      height: 520px;
+      object-fit: contain;
+      background: #fffefb;
+    }
+
     @media (max-width: 1320px) {
       main { width: 100%; }
       .flow-grid { grid-template-columns: 1fr; }
+      .diagram-grid { grid-template-columns: 1fr; }
       .sheet-head { display: block; }
       .legend { margin-top: 16px; }
+      .diagram-info { flex-wrap: wrap; }
+      .diagram-links { margin-left: 64px; }
+    }
+
+    @media (max-width: 720px) {
+      header { display: block; }
+      .tabs { justify-content: flex-start; margin-top: 14px; }
+      main { padding: 14px; }
+      .sheet { padding: 18px; }
+      .diagram-preview { height: 360px; }
+      .diagram-links { margin-left: 0; }
     }
   </style>
 </head>
@@ -159,14 +270,25 @@
       <p class="sub">전체 이동도가 아니라 각 화면 안에서의 입력, 판단, 처리, DB 사용 지점을 독립 플로우차트로 정리</p>
     </div>
     <nav class="tabs" aria-label="다이어그램 선택">
-      <button class="active" data-target="customer">고객 예약웹</button>
+      <button class="active" data-target="exports">PPT용 이미지</button>
+      <button data-target="customer">고객 예약웹</button>
       <button data-target="owner">점주앱</button>
       <button data-target="status">상태·트랜잭션</button>
     </nav>
   </header>
 
   <main>
-    <section id="customer" class="sheet active">
+    <section id="exports" class="sheet active">
+      <div class="sheet-head">
+        <div>
+          <h2 class="sheet-title">PPT 삽입용 대형 플로우 이미지</h2>
+          <p class="sheet-desc">완성된 PNG/SVG 다이어그램을 큰 로직 흐름 단위로 나누어 연결했습니다. 긴 흐름은 2~3개 파트로 분리했습니다.</p>
+        </div>
+      </div>
+      <div id="diagramGrid" class="diagram-groups"></div>
+    </section>
+
+    <section id="customer" class="sheet">
       <div class="sheet-head">
         <div>
           <h2 class="sheet-title">고객 예약웹 화면별 플로우</h2>
@@ -201,6 +323,89 @@
   </main>
 
   <script>
+    const diagramExports = [
+      {
+        id: "01-1",
+        group: "overview",
+        title: "전체 서비스 흐름 1 - 슬롯 예약",
+        desc: "수확 슬롯 오픈부터 고객 예약 점유까지의 핵심 흐름",
+        png: "01_overview_end_to_end_1_slot_reservation.png",
+        svg: "01_overview_end_to_end_1_slot_reservation.svg"
+      },
+      {
+        id: "01-2",
+        group: "overview",
+        title: "전체 서비스 흐름 2 - 주문·발주·배송·반품",
+        desc: "주문 생성 이후 결제, 점주 발주, 품질 확인, 배송, 반품으로 이어지는 흐름",
+        png: "01_overview_end_to_end_2_order_fulfillment_return.png",
+        svg: "01_overview_end_to_end_2_order_fulfillment_return.svg"
+      },
+      {
+        id: "02",
+        group: "workflows",
+        title: "점주 수확 슬롯 설정",
+        desc: "ML 예측 결과를 바탕으로 판매 가능한 수확 슬롯을 오픈하는 점주 흐름",
+        png: "02_owner_supply_slot_setup.png",
+        svg: "02_owner_supply_slot_setup.svg"
+      },
+      {
+        id: "03",
+        group: "workflows",
+        title: "고객 예약 생성",
+        desc: "상품 상세에서 수량을 선택하고 서버 예약을 생성하는 고객 예약 흐름",
+        png: "03_customer_reservation.png",
+        svg: "03_customer_reservation.svg"
+      },
+      {
+        id: "04",
+        group: "workflows",
+        title: "주문·결제·발주 요청",
+        desc: "예약 상태 검증, 주문 생성, Mock 결제 승인, 발주 요청 생성 흐름",
+        png: "04_order_payment_procurement.png",
+        svg: "04_order_payment_procurement.svg"
+      },
+      {
+        id: "05",
+        group: "workflows",
+        title: "점주 발주·품질·배송 처리",
+        desc: "발주 승인 또는 거절, 신선도 검사, 배송 준비와 송장 등록 흐름",
+        png: "05_owner_fulfillment_quality_shipping.png",
+        svg: "05_owner_fulfillment_quality_shipping.svg"
+      },
+      {
+        id: "06",
+        group: "workflows",
+        title: "반품·환불 처리",
+        desc: "고객 반품 요청부터 점주 승인, 환불 처리, 거래 종료까지의 흐름",
+        png: "06_return_refund.png",
+        svg: "06_return_refund.svg"
+      },
+      {
+        id: "07-1",
+        group: "states",
+        title: "상태 생명주기 1 - 예약·주문·발주",
+        desc: "RESERVED에서 PAYMENT_PENDING, PAID, PROCUREMENT_REQUESTED로 이어지는 상태 전이",
+        png: "07_state_lifecycle_1_order_procurement.png",
+        svg: "07_state_lifecycle_1_order_procurement.svg"
+      },
+      {
+        id: "07-2",
+        group: "states",
+        title: "상태 생명주기 2 - 출고·배송",
+        desc: "발주 승인 이후 QUALITY_CHECKING, READY_TO_SHIP, SHIPPED, DELIVERED 상태 전이",
+        png: "07_state_lifecycle_2_fulfillment_shipping.png",
+        svg: "07_state_lifecycle_2_fulfillment_shipping.svg"
+      },
+      {
+        id: "07-3",
+        group: "states",
+        title: "상태 생명주기 3 - 반품·환불",
+        desc: "DELIVERED 이후 반품 요청, 반품 승인 또는 거절, 환불 완료까지의 상태 전이",
+        png: "07_state_lifecycle_3_return_refund.png",
+        svg: "07_state_lifecycle_3_return_refund.svg"
+      }
+    ];
+
     const customerFlows = [
       ["C-001", "홈", "/", "input", "화면 진입", "추천 상품 영역 요청", "표시 상품 있음?", "products, farms, harvest_slots 조회", "상품 목록 또는 상세"],
       ["C-002", "상품 목록", "/products", "input", "필터·정렬 선택", "예약 가능 상품 조회", "OPEN 슬롯 있음?", "products, farms, harvest_slots 조회", "상품 상세"],
@@ -361,6 +566,44 @@
       `).join("");
     }
 
+    function renderDiagramExports() {
+      const groups = [
+        ["overview", "01. 전체 흐름 다이어그램", "서비스 시작부터 주문·배송·반품까지 이어지는 큰 흐름입니다. PPT에서는 개요 설명용으로 따로 사용합니다."],
+        ["workflows", "02-06. 업무 처리 다이어그램", "고객과 점주가 실제 화면에서 수행하는 주요 업무 처리 흐름입니다."],
+        ["states", "07. 상태 생명주기 다이어그램", "주문, 출고, 반품·환불 상태값이 어떻게 전이되는지 정리한 상태 중심 흐름입니다."]
+      ];
+      const grid = document.getElementById("diagramGrid");
+      grid.innerHTML = groups.map(([groupId, title, desc]) => {
+        const items = diagramExports.filter(item => item.group === groupId);
+        return `
+          <section class="diagram-group" aria-labelledby="group-${esc(groupId)}">
+            <h3 id="group-${esc(groupId)}" class="diagram-group-title">${esc(title)}</h3>
+            <p class="diagram-group-desc">${esc(desc)}</p>
+            <div class="diagram-grid">
+              ${items.map(item => `
+                <article class="diagram-card">
+                  <div class="diagram-info">
+                    <span class="diagram-id">${esc(item.id)}</span>
+                    <div>
+                      <h4 class="diagram-title">${esc(item.title)}</h4>
+                      <p class="diagram-desc">${esc(item.desc)}</p>
+                    </div>
+                    <div class="diagram-links">
+                      <a href="${esc(item.png)}" target="_blank" rel="noopener">PNG</a>
+                      <a href="${esc(item.svg)}" target="_blank" rel="noopener">SVG</a>
+                    </div>
+                  </div>
+                  <a href="${esc(item.png)}" target="_blank" rel="noopener" aria-label="${esc(item.title)} PNG 열기">
+                    <img class="diagram-preview" src="${esc(item.png)}" alt="${esc(item.title)}">
+                  </a>
+                </article>
+              `).join("")}
+            </div>
+          </section>
+        `;
+      }).join("");
+    }
+
     function renderLegend() {
       document.querySelectorAll(".legend").forEach(svg => {
         svg.innerHTML = `
@@ -392,6 +635,7 @@
     }
 
     renderLegend();
+    renderDiagramExports();
     renderGrid("customerGrid", customerFlows);
     renderGrid("ownerGrid", ownerFlows);
     renderGrid("statusGrid", statusFlows);
@@ -402,7 +646,7 @@
         history.replaceState(null, "", `#${button.dataset.target}`);
       });
     });
-    activate(location.hash.replace("#", "") || "customer");
+    activate(location.hash.replace("#", "") || "exports");
   </script>
 </body>
 </html>
